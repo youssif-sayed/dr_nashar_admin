@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "582450987697",
+    "project_id": "dr-nashar",
+    "storage_bucket": "dr-nashar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:582450987697:android:fa2933d788c30b3fed5890",
+        "android_client_info": {
+          "package_name": "com.drnashar.dr_nashar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "582450987697-dps73qcp8ekhmv5kuc5fctmod246viqu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.drnashar.dr_nashar",
+            "certificate_hash": "97c93580fb36a5f09b15f651333c4493cef19f0b"
+          }
+        },
+        {
+          "client_id": "582450987697-l9kj6t6qo090scl2l1ajtbjhvf6uvt3m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCv4cmmnMhXpfHslfUHnVXztdlVA0c_M4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "582450987697-l9kj6t6qo090scl2l1ajtbjhvf6uvt3m.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "582450987697-2qp40bn7mooclsv4rs8ra8sshncb4j32.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.drnashar.drNashar"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:582450987697:android:24a9b53d857d88c8ed5890",
+        "android_client_info": {
+          "package_name": "com.drnashar.dr_nashar_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "582450987697-l9kj6t6qo090scl2l1ajtbjhvf6uvt3m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCv4cmmnMhXpfHslfUHnVXztdlVA0c_M4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "582450987697-l9kj6t6qo090scl2l1ajtbjhvf6uvt3m.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "582450987697-2qp40bn7mooclsv4rs8ra8sshncb4j32.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.drnashar.drNashar"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
