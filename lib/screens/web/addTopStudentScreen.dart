@@ -176,6 +176,7 @@ class _AddTopStudentScreenState extends State<AddTopStudentScreen> {
           progress = ((event.bytesTransferred.toDouble() /
               event.totalBytes.toDouble()) *
               100)
+
               .roundToDouble();
 
           if (progress == 100) {
