@@ -28,7 +28,6 @@ dependencies:
   pdf: ^3.8.4
   path_provider: ^2.0.13
   open_document: ^1.0.6+2
-  mobile_scanner: ^3.0.0
 
 dev_dependencies:
   flutter_test:
