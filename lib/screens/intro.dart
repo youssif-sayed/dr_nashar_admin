@@ -56,7 +56,9 @@ class IntroScreen extends StatelessWidget {
             ),
             SizedBox(height: 5,),
             MaterialButton(
-              onPressed: (){},
+              onPressed: (){
+                Navigator.of(context).pushNamed('AppScreen');
+              },
               child: Container(
 
                 height: MediaQuery.of(context).size.height * 0.4,

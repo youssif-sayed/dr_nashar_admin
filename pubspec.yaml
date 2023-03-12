@@ -3,7 +3,7 @@ description: admin application for dr nashar
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+1
+version: 1.0.0+5
 
 environment:
   sdk: '>=2.19.0 <3.0.0'
@@ -15,7 +15,6 @@ dependencies:
 
   cupertino_icons: ^1.0.2
   rename: ^2.1.1
-  flutter_launcher_icons: ^0.11.0
   flutter_native_splash: ^2.2.16
   firebase_core: ^2.4.1
   firebase_storage: ^11.0.10
@@ -23,15 +22,20 @@ dependencies:
   image_picker: ^0.8.6+1
   video_player: ^2.5.1
   file_picker: ^5.2.5
-  google_fonts: ^3.0.1
   liquid_progress_indicator: ^0.4.0
-  flutter_native_image: ^0.0.6+1
+  shimmer: ^2.0.0
+  flutter_spinkit: ^5.1.0
+  pdf: ^3.8.4
+  path_provider: ^2.0.13
+  open_document: ^1.0.6+2
+  mobile_scanner: ^3.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.11.0
 flutter_native_splash:
   color: "#ffffff"
   image: "images/Icons/appIcon.png"

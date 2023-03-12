@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import '../../firebase/app/yearsdata.dart';
 import '../../firebase/web/fireweb.dart';
 
-class WebSiteScreen extends StatefulWidget {
-  const WebSiteScreen({Key? key}) : super(key: key);
+class AppScreen extends StatefulWidget {
+  const AppScreen({Key? key}) : super(key: key);
 
   @override
-  State<WebSiteScreen> createState() => _WebSiteScreenState();
+  State<AppScreen> createState() => _AppScreenState();
 }
 
-class _WebSiteScreenState extends State<WebSiteScreen> {
+class _AppScreenState extends State<AppScreen> {
   @override
   bool isLoading=false;
 
@@ -43,11 +44,13 @@ class _WebSiteScreenState extends State<WebSiteScreen> {
                     isLoading=true;
 
                   });
-                  await FireWeb.getYears();
+                  bool isyears = await YearsData.get_years_data();
+
                   setState(() {
                     isLoading=false;
                   });
-                  Navigator.pushNamed(context, 'LectuerScreen');
+                  if (isyears)
+                  Navigator.pushNamed(context, 'AppSubjectScreen');
                 },
                 child: Container(
 
@@ -74,41 +77,11 @@ class _WebSiteScreenState extends State<WebSiteScreen> {
                     isLoading=true;
 
                   });
-                  await FireWeb.getME();
-                  setState(() {
-                    isLoading=false;
-                  });
-                  Navigator.pushNamed(context, 'MathAndEnglishScreen');
-                },
-                child: Container(
-
-
-                  width: MediaQuery.of(context).size.width ,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.redAccent,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(height: 5,),
-                      Icon(Icons.co_present_rounded,color: Colors.white,size: 50,),
-                      Text('Math & English',style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),),
-                    ],
-                  ),
-                ),
-              ),MaterialButton(
-                onPressed: ()async{
-                  setState(() {
-                    isLoading=true;
-
-                  });
 
                   setState(() {
                     isLoading=false;
                   });
-                  Navigator.pushNamed(context, 'TopStudentsScreen');
+                  Navigator.pushNamed(context, 'AttendanceScreen');
                 },
                 child: Container(
 
@@ -123,44 +96,13 @@ class _WebSiteScreenState extends State<WebSiteScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(height: 5,),
-                      Icon(Icons.hotel_class_rounded,color: Colors.white,size: 50,),
-                      Text('Top Students',style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),),
+                      Icon(Icons.qr_code_scanner_rounded,color: Colors.white,size: 50,),
+                      Text('Attendance',style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),),
                     ],
                   ),
                 ),
               ),
-              MaterialButton(
-                onPressed: ()async{
-                  setState(() {
-                    isLoading=true;
 
-                  });
-                  await FireWeb.get_images();
-
-                  setState(() {
-                    isLoading=false;
-                  });
-                  Navigator.pushNamed(context, 'ImagesScreen');
-                },
-                child: Container(
-
-
-                  width: MediaQuery.of(context).size.width ,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.orangeAccent,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(height: 5,),
-                      Icon(Icons.photo_library_rounded,color: Colors.white,size: 50,),
-                      Text('Images',style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),),
-                    ],
-                  ),
-                ),
-              ),
 
             ],
           ),

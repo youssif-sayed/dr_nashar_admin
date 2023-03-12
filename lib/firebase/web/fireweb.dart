@@ -110,6 +110,21 @@ class FireWeb {
         .update(yearsData!)
         .onError((e, _) => print("Error writing document: $e"));
     }
+    static Future<void> delete_lecture(int index)async {
+      final storageRef = FirebaseStorage.instance.ref();
+
+      final desertRef = storageRef.child("${FireWeb.currentSubject.values.elementAt(index)['refrance']}");
+
+      await desertRef.delete();
+
+      final docRef = db.collection("web")
+          .doc("years");
+
+      docRef.update({"${yearsData!.keys.elementAt(inhetanceSubjectNumbers[0])}.${yearsData?.values.elementAt(inhetanceSubjectNumbers[0]).
+      keys.elementAt(inhetanceSubjectNumbers[1])}.${yearsData?.values.elementAt(inhetanceSubjectNumbers[0]).
+      values.elementAt(inhetanceSubjectNumbers[1]).
+      keys.elementAt(inhetanceSubjectNumbers[2])}.${currentSubject?.keys.elementAt(index)}":FieldValue.delete()});
+    }
     //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
@@ -179,6 +194,25 @@ class FireWeb {
         .update(MEData!)
         .onError((e, _) => print("Error writing document: $e"));
   }
+  static Future<void> delete_ME (int index,int sana) async {
+    final storageRef = FirebaseStorage.instance.ref();
+    final path1 = '${FireWeb.MEData?.values.elementAt(sana).values.elementAt(index).values.elementAt(0)['refrance']}';
+    final path2 = '${FireWeb.MEData?.values.elementAt(sana).values.elementAt(index).values.elementAt(1)['refrance']}';
+
+    final desertRef = storageRef.child("$path1");
+    final desertRef2 = storageRef.child("$path2");
+    await desertRef.delete();
+    await desertRef2.delete();
+    final docRef = db.collection("web")
+        .doc("math_and_english");
+
+
+
+
+    docRef.update({"${MEData!.keys.elementAt(sana)}.${MEData!.values.elementAt(sana).keys.elementAt(index)}":FieldValue.delete()});
+
+  }
+
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
@@ -220,7 +254,57 @@ class FireWeb {
     print(updates);
 
     docRef.update(updates);
-
-
   }
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+  static var imagesData;
+  static  List<String>? imagesUrl=[];
+static Future get_images()async{
+  final docRef = db.collection("web").doc("pictures");
+
+
+  await docRef.get().then(
+        (DocumentSnapshot doc) {
+      final data = doc.data() as Map<String, dynamic>;
+      imagesData=data;
+
+    },
+    onError: (e) => print("Error getting document: $e"),
+  );
+  imagesUrl!.clear();
+
+
+  for (int i =0;i<imagesData.values.length;i++)
+    {
+      final storageRef = FirebaseStorage.instance.ref();
+      final url =
+      await storageRef.child("${imagesData.values.elementAt(i)}").getDownloadURL();
+      print (imagesUrl?.length);
+      imagesUrl?.add(url);
+
+    }
+
+}
+  static Future<void> delete_image(int index)async {
+    final storageRef = FirebaseStorage.instance.ref();
+    final path = '${FireWeb.imagesData?.values.elementAt(index)}';
+
+    final desertRef = storageRef.child("${FireWeb.imagesData?.values.elementAt(index)}");
+
+    await desertRef.delete();
+    final docRef = db.collection("web")
+        .doc("pictures");
+
+    final updates = <String, dynamic>{
+      "${FireWeb.imagesData?.keys.elementAt(index)}": FieldValue.delete(),
+    };
+    print(updates);
+    docRef.update(updates);
+  }
+
+
+
+
+
 }

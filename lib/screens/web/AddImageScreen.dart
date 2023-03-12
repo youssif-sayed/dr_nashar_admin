@@ -1,28 +1,27 @@
 import 'dart:typed_data';
-import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 
 import '../../firebase/web/fireweb.dart';
 
-
-class AddTopStudentScreen extends StatefulWidget {
-  const AddTopStudentScreen({Key? key}) : super(key: key);
+class ADDImageScreen extends StatefulWidget {
+  const ADDImageScreen({Key? key}) : super(key: key);
 
   @override
-  State<AddTopStudentScreen> createState() => _AddTopStudentScreenState();
+  State<ADDImageScreen> createState() => _ADDImageScreenState();
 }
 
-class _AddTopStudentScreenState extends State<AddTopStudentScreen> {
+class _ADDImageScreenState extends State<ADDImageScreen> {
+  @override
   double progress = 0.0;
   FilePickerResult? result;
   late String studentName ;
   bool isLoading=false;
 
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
@@ -42,7 +41,7 @@ class _AddTopStudentScreenState extends State<AddTopStudentScreen> {
                         onChanged: (value){studentName=value;},
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          labelText: "Student Name",
+                          labelText: "Image Name",
                         ),
                       ),
                     ),
@@ -159,16 +158,16 @@ class _AddTopStudentScreenState extends State<AddTopStudentScreen> {
 
   Future<void> pick_file(var result) async {
     if (result != null) {
-      
+
       Uint8List? file = result.files.first.bytes;
-      String fileName = "web/top_students/${FireWeb.addUnderScore(studentName)}.${result.files.first.extension}";
-      Map<String,dynamic> addedMap = {'${FireWeb.addUnderScore(studentName)}':{'name':studentName,'photo':fileName}};
+      String fileName = "web/pictures/${FireWeb.addUnderScore(studentName)}.${result.files.first.extension}";
+
       print(result.files.first);
       UploadTask task = FirebaseStorage.instance
           .ref()
           .child(fileName)
           .putData(file!,SettableMetadata(
-        contentType: "image/${result.files.first.extension}"));
+          contentType: "image/${result.files.first.extension}"));
 
       task.snapshotEvents.listen((event) {
         setState(() {
@@ -178,7 +177,11 @@ class _AddTopStudentScreenState extends State<AddTopStudentScreen> {
               .roundToDouble();
 
           if (progress == 100) {
-            FireWeb.change_topStudent_map(addedMap);
+            final db = FirebaseFirestore.instance;
+            db
+                .collection("web")
+                .doc("pictures")
+                .update({studentName:"$fileName"});
             setState(() {
               FireWeb.getTopStudent();
             });

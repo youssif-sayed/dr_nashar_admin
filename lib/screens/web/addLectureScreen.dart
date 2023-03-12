@@ -3,7 +3,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import '../../firebase/web/fireweb.dart';
 
@@ -93,12 +93,13 @@ class _AddLectuerState extends State<AddLectuer> {
                       ),
                     ),
                     onPressed: () async{
-                      if(lectureName!=null) {
+                      if(lectureName!=null&&result!=null) {
                         setState(() {
                           isLoading = true;
                         });
                         await pick_file(result);
                       }
+
                       },
                     child: Text(
                       'submit',
@@ -144,8 +145,7 @@ class _AddLectuerState extends State<AddLectuer> {
                   direction: Axis.vertical,
                   center: Text(
                     "$progress%",
-                    style: GoogleFonts.poppins(
-                        color: Colors.black87, fontSize: 25.0),
+
                   ),
                 ),
               ),

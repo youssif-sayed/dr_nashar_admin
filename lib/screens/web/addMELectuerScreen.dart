@@ -4,7 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 
 import '../../firebase/web/fireweb.dart';
@@ -169,7 +169,7 @@ class _AddMELectuerState extends State<AddMELectuer> {
                       ),
                     ),
                     onPressed: () async {
-                      if (lectureName != null) {
+                      if (lectureName != null&&result!=null&&result2!=null) {
                         setState(() {
                           isLoading = true;
                         });
@@ -221,8 +221,7 @@ class _AddMELectuerState extends State<AddMELectuer> {
                             direction: Axis.vertical,
                             center: Text(
                               "$progress%",
-                              style: GoogleFonts.poppins(
-                                  color: Colors.black87, fontSize: 25.0),
+
                             ),
                           ),
                   ),
@@ -236,13 +235,13 @@ class _AddMELectuerState extends State<AddMELectuer> {
   Future<void> pick_file(var result, var result2) async {
     if (result != null && result2 != null) {
       Uint8List? file = result.files.first.bytes;
-      Uint8List? file2 = result.files.first.bytes;
+      Uint8List? file2 = result2.files.first.bytes;
       String fileName =
           "web/math_and_english/${FireWeb.MEData?.keys.elementAt(FireWeb.MEYear)}/english/${FireWeb.addUnderScore(lectureName)}.mp4";
       String fileName2 =
           "web/math_and_english/${FireWeb.MEData?.keys.elementAt(FireWeb.MEYear)}/math/${FireWeb.addUnderScore(lectureName)}.mp4";
       Map<String, dynamic> addedMap = {
-        '${FireWeb.addUnderScore(lectureName)}': {
+        '${lectureName}': {
           'english': {'refrance': fileName, 'favourite': false},
           'math': {'refrance': fileName2, 'favourite': false}
         }
