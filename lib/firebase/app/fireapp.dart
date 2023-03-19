@@ -28,6 +28,8 @@ class FireApp{
     final data =await createInvoice(stringCodes);
     savePdfFile('generated codes', data);
   }
+
+
   static Future<Uint8List> createInvoice(list) async {
     final pdf = pw.Document();
 

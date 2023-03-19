@@ -6,6 +6,7 @@ import 'package:dr_nashar_admin/screens/app/lectureCodesScreen.dart';
 import 'package:dr_nashar_admin/screens/app/loadLectureScreen.dart';
 import 'package:dr_nashar_admin/screens/app/subjectScreen.dart';
 import 'package:dr_nashar_admin/screens/web/AddImageScreen.dart';
+import 'package:dr_nashar_admin/screens/web/AddNewsScreen.dart';
 import 'package:dr_nashar_admin/screens/web/ImagesScreen.dart';
 import 'package:dr_nashar_admin/screens/web/addLectureScreen.dart';
 import 'package:dr_nashar_admin/screens/web/addMELectuerScreen.dart';
@@ -13,6 +14,7 @@ import 'package:dr_nashar_admin/screens/intro.dart';
 import 'package:dr_nashar_admin/screens/web/addTopStudentScreen.dart';
 import 'package:dr_nashar_admin/screens/web/lectuerScreen.dart';
 import 'package:dr_nashar_admin/screens/web/mathandenglishScreen.dart';
+import 'package:dr_nashar_admin/screens/web/newsScreen.dart';
 import 'package:dr_nashar_admin/screens/web/subjectScreen.dart';
 import 'package:dr_nashar_admin/screens/web/topStudentListScreen.dart';
 import 'package:dr_nashar_admin/screens/web/topStudentsScreen.dart';
@@ -50,7 +52,9 @@ class MyApp extends StatelessWidget {
         'TopStudentListScreen' :(context)=>TopStudentListScreen(),
         'AddTopStudentScreen' :(context)=>AddTopStudentScreen(),
         'ImagesScreen' :(context)=>ImagesScreen(),
+        'AddNewsScreen':(context)=>ADDNewsScreen(),
         'AddImageScreen' :(context)=>ADDImageScreen(),
+        'NewsScreen':(context)=>NewsScreen(),
         'AppScreen' :(context)=>AppScreen(),
         'AppSubjectScreen':(context)=>AppSubjectScreen(),
         'AppLoadingLectureScreen':(context)=>AppLoadLectureScreen(),
@@ -61,7 +65,7 @@ class MyApp extends StatelessWidget {
 
       },
       theme: ThemeData(
-        appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.black),),
+        appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.blueAccent),),
 
       ),
     );

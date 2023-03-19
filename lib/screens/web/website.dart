@@ -98,7 +98,8 @@ class _WebSiteScreenState extends State<WebSiteScreen> {
                     ],
                   ),
                 ),
-              ),MaterialButton(
+              ),
+              MaterialButton(
                 onPressed: ()async{
                   setState(() {
                     isLoading=true;
@@ -157,6 +158,37 @@ class _WebSiteScreenState extends State<WebSiteScreen> {
                       SizedBox(height: 5,),
                       Icon(Icons.photo_library_rounded,color: Colors.white,size: 50,),
                       Text('Images',style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),),
+                    ],
+                  ),
+                ),
+              ),
+              MaterialButton(
+                onPressed: ()async{
+                  setState(() {
+                    isLoading=true;
+                  });
+                  await FireWeb.get_news();
+
+                  setState(() {
+                    isLoading=false;
+                  });
+                  Navigator.pushNamed(context, 'NewsScreen');
+                },
+                child: Container(
+
+
+                  width: MediaQuery.of(context).size.width ,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.cyan,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 5,),
+                      Icon(Icons.newspaper_rounded,color: Colors.white,size: 50,),
+                      Text('News',style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),),
                     ],
                   ),
                 ),

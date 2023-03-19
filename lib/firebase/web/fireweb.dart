@@ -302,6 +302,36 @@ static Future get_images()async{
     print(updates);
     docRef.update(updates);
   }
+  //////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+  static var newsData;
+
+  static Future get_news()async{
+    final docRef = db.collection("web").doc("news");
+
+
+    await docRef.get().then(
+          (DocumentSnapshot doc) {
+        final data = doc.data() as Map<String, dynamic>;
+        newsData=data;
+
+      },
+      onError: (e) => print("Error getting document: $e"),
+    );
+
+  }
+  static Future<void> delete_news(int index)async {
+
+    final docRef = db.collection("web")
+        .doc("news");
+
+    final updates = <String, dynamic>{
+      "${FireWeb.newsData?.keys.elementAt(index)}": FieldValue.delete(),
+    };
+    print(updates);
+    docRef.update(updates);
+  }
 
 
 
