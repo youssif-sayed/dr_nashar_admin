@@ -45,9 +45,9 @@ class YearsData{
     });
     return true;
   }
-  static Future<bool> get_lecture_codes(index) async {
-    lectureID=subjectData[index]['id'];
-    await FirebaseFirestore.instance.collection("codes").doc('${subjectData[index]['id']}').get().then((value) {
+  static Future<bool> get_codes() async {
+
+    await FirebaseFirestore.instance.collection("codes").doc('general').get().then((value) {
       lectureCodes=value.data() as Map<String,dynamic>;
     });
     return true;

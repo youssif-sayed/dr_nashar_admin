@@ -96,8 +96,39 @@ class _AppScreenState extends State<AppScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(height: 5,),
-                      Icon(Icons.qr_code_scanner_rounded,color: Colors.white,size: 50,),
+                      Icon(Icons.groups_rounded,color: Colors.white,size: 50,),
                       Text('Attendance',style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),),
+                    ],
+                  ),
+                ),
+              ),
+              MaterialButton(
+                onPressed: ()async{
+                  setState(() {
+                    isLoading=true;
+
+                  });
+                  await YearsData.get_codes();
+                  setState(() {
+                    isLoading=false;
+                  });
+                  Navigator.pushNamed(context, 'AppLectureCodesScreen');
+                },
+                child: Container(
+
+
+                  width: MediaQuery.of(context).size.width ,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.amber,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 5,),
+                      Icon(Icons.qr_code_rounded,color: Colors.white,size: 50,),
+                      Text('Codes',style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),),
                     ],
                   ),
                 ),

@@ -58,22 +58,7 @@ class _AppLectureScreenState extends State<AppLectureScreen> {
                                             )),
                                         Row(
                                           children: [
-                                            IconButton(
-                                              onPressed: () async{
-                                                setState(() {
-                                                  isLoading=true;
-                                                });
-                                                await YearsData.get_lecture_codes(index);
-                                                setState(() {
-                                                  isLoading=false;
-                                                });
-                                                Navigator.of(context).pushNamed('AppLectureCodesScreen');
-                                              },
-                                              icon: Icon(
-                                                Icons.qr_code_2_rounded,
-                                                color: Colors.amberAccent,
-                                              ),
-                                            ),
+
                                             IconButton(
                                               onPressed: () async{
                                                 setState(() {
@@ -82,7 +67,7 @@ class _AppLectureScreenState extends State<AppLectureScreen> {
                                                 });
 
                                                 await FirebaseFirestore.instance.collection('${YearsData.selectedYear}-lectures').doc('${YearsData.selectedSubject}').collection('videos').doc(YearsData.subjectData[index].id).delete();
-                                                await FirebaseFirestore.instance.collection('codes').doc(YearsData.subjectData[index]['id']).delete();
+
 
                                                 setState(() {
                                                   isLoading=false;

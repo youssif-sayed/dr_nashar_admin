@@ -16,6 +16,7 @@ class AppLectureCodeScreen extends StatefulWidget {
 class _AppLectureCodeScreenState extends State<AppLectureCodeScreen> {
   String codesnumbers='';
   String codesExpiretimes='';
+  String price='';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +57,7 @@ class _AppLectureCodeScreenState extends State<AppLectureCodeScreen> {
                               style: TextStyle(fontSize: 20,color:YearsData.lectureCodes.values.elementAt(index)['used']? Colors.red:Colors.green),
                               ),
                               IconButton(onPressed: () async {
-                                await FirebaseFirestore.instance.collection('codes').doc('${YearsData.lectureID}').update({'${YearsData.lectureCodes.keys.elementAt(index)}':FieldValue.delete()});
+                                await FirebaseFirestore.instance.collection('codes').doc('general').update({'${YearsData.lectureCodes.keys.elementAt(index)}':FieldValue.delete()});
                                 setState(() {
                                   YearsData.lectureCodes.remove('${YearsData.lectureCodes.keys.elementAt(index)}');
                                 });
@@ -77,7 +78,7 @@ class _AppLectureCodeScreenState extends State<AppLectureCodeScreen> {
                     return Padding(
                       padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom,),
                       child: Container(
-                        height: 300,
+                        height: 400,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -104,14 +105,23 @@ class _AppLectureCodeScreenState extends State<AppLectureCodeScreen> {
                                       hintText: 'Enter Expire Days',
                                     ),
                                     onChanged: (value){codesExpiretimes=value;},),
+                                  SizedBox(height: 34,),
+                                  TextField(
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      labelText: 'Price',
+                                      hintText: 'Enter price',
+                                    ),
+                                    onChanged: (value){price=value;},),
                                 ],
                               ),
                             ),
                             Column(
                               children: [
                                 MaterialButton(onPressed: () async {
-                                  if (codesExpiretimes!=''&&codesnumbers!=''){
-                                     FireApp.generate_lecture_code(int.parse(codesnumbers),int.parse(codesExpiretimes));
+                                  if (codesExpiretimes!=''&&codesnumbers!=''&&price!=''){
+                                     FireApp.generate_lecture_code(int.parse(codesnumbers),int.parse(codesExpiretimes),price);
 
                                   }
                                 }

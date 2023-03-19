@@ -153,6 +153,38 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  dependencies:
+    dependency: "direct main"
+    description:
+      name: dependencies
+      sha256: "81009f347d7e4596251339775398017ba04e509c1064364745a4b77fc72f6c7e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.5"
+  disposables:
+    dependency: transitive
+    description:
+      name: disposables
+      sha256: "5a244b16914123b823f40983b24b1415c9df8f607cd294af7699273e162f63e5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.2"
+  equatable:
+    dependency: transitive
+    description:
+      name: equatable
+      sha256: c2b87cb7756efdf69892005af546c56c0b5037f54d2a88269b4f347a505e3ca2
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.5"
+  excel:
+    dependency: "direct main"
+    description:
+      name: excel
+      sha256: "3b0751b14128f10e7bfde4e13cefb82e7c020006d1270efa82e138cb80605a99"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.4"
   fake_async:
     dependency: transitive
     description:
@@ -576,6 +608,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
+  quiver:
+    dependency: transitive
+    description:
+      name: quiver
+      sha256: e83f7ad1e6375da1400b54eea8793bba804d1731d68c5694490bf9296cd3ca24
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.5"
   rename:
     dependency: "direct main"
     description:

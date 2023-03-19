@@ -329,7 +329,6 @@ static Future get_images()async{
     final updates = <String, dynamic>{
       "${FireWeb.newsData?.keys.elementAt(index)}": FieldValue.delete(),
     };
-    print(updates);
     docRef.update(updates);
   }
 
