@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 
 import '../../firebase/web/fireweb.dart';
 
@@ -138,15 +137,8 @@ class _ADDImageScreenState extends State<ADDImageScreen> {
                       ),
                     ],
                   )
-                      :  LiquidCircularProgressIndicator(
-                    value: progress / 100,
-                    valueColor: AlwaysStoppedAnimation(Colors.green),
-                    backgroundColor: Colors.white,
-                    direction: Axis.vertical,
-                    center: Text(
-                      "$progress%",
-                      style: TextStyle(fontSize: 25),
-                    ),
+                      :  const Center(
+                    child: CircularProgressIndicator(),
                   ),
                 ),
               )),

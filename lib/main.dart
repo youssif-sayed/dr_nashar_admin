@@ -1,9 +1,12 @@
 import 'package:dr_nashar_admin/screens/app/addLecture.dart';
+import 'package:dr_nashar_admin/screens/app/addQuestion.dart';
+import 'package:dr_nashar_admin/screens/app/addQuizScreen.dart';
 import 'package:dr_nashar_admin/screens/app/appLectureScreen.dart';
 import 'package:dr_nashar_admin/screens/app/appScreen.dart';
 import 'package:dr_nashar_admin/screens/app/attendanceScreen.dart';
 import 'package:dr_nashar_admin/screens/app/lectureCodesScreen.dart';
 import 'package:dr_nashar_admin/screens/app/loadLectureScreen.dart';
+import 'package:dr_nashar_admin/screens/app/students_data_screen.dart';
 import 'package:dr_nashar_admin/screens/app/subjectScreen.dart';
 import 'package:dr_nashar_admin/screens/web/AddImageScreen.dart';
 import 'package:dr_nashar_admin/screens/web/ImagesScreen.dart';
@@ -58,6 +61,9 @@ class MyApp extends StatelessWidget {
         'AppLectureCodesScreen':(context)=>AppLectureCodeScreen(),
         'AppAddLectureScreen':(context)=>AppAddLectuerScreen(),
         'AttendanceScreen':(context)=>AttendanceScreen(),
+        'AddQuizScreen':(context)=>AddQuizScreen(),
+        'StudentsDataScreen':(context)=>StudentsDataScreen(),
+
 
       },
       theme: ThemeData(

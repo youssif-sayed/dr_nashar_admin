@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+
 import '../../firebase/app/yearsdata.dart';
-import '../../firebase/web/fireweb.dart';
 
 class AppScreen extends StatefulWidget {
   const AppScreen({Key? key}) : super(key: key);
@@ -11,11 +11,11 @@ class AppScreen extends StatefulWidget {
 
 class _AppScreenState extends State<AppScreen> {
   @override
-  bool isLoading=false;
+  bool isLoading = false;
 
   Widget build(BuildContext context) {
-    var hight=MediaQuery.of(context).size.height;
-    var width=MediaQuery.of(context).size.width;
+    var hight = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: Container(
@@ -32,86 +32,152 @@ class _AppScreenState extends State<AppScreen> {
       ),
       body: SafeArea(
         child: Stack(
-          children: [GridView.count(primary: false,
-            childAspectRatio: width/hight*2,
-            crossAxisSpacing: 1,
-            mainAxisSpacing: 10,
-            crossAxisCount: 2,
-            children: [
-              MaterialButton(
-                onPressed: ()async{
-                  setState(() {
-                    isLoading=true;
+          children: [
+            GridView.count(
+              primary: false,
+              childAspectRatio: width / hight * 2,
+              crossAxisSpacing: 1,
+              mainAxisSpacing: 10,
+              crossAxisCount: 2,
+              children: [
+                MaterialButton(
+                  onPressed: () async {
+                    setState(() {
+                      isLoading = true;
+                    });
+                    bool isyears = await YearsData.get_years_data();
 
-                  });
-                  bool isyears = await YearsData.get_years_data();
-
-                  setState(() {
-                    isLoading=false;
-                  });
-                  if (isyears)
-                  Navigator.pushNamed(context, 'AppSubjectScreen');
-                },
-                child: Container(
-
-
-                  width: MediaQuery.of(context).size.width ,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.blueAccent,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(height: 5,),
-                      Icon(Icons.school_rounded,color: Colors.white,size: 50,),
-                      Text('Lectuers',style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),),
-                    ],
-                  ),
-                ),
-              ),
-              MaterialButton(
-                onPressed: ()async{
-                  setState(() {
-                    isLoading=true;
-
-                  });
-
-                  setState(() {
-                    isLoading=false;
-                  });
-                  Navigator.pushNamed(context, 'AttendanceScreen');
-                },
-                child: Container(
-
-
-                  width: MediaQuery.of(context).size.width ,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.green,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(height: 5,),
-                      Icon(Icons.qr_code_scanner_rounded,color: Colors.white,size: 50,),
-                      Text('Attendance',style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),),
-                    ],
+                    setState(() {
+                      isLoading = false;
+                    });
+                    if (isyears)
+                      Navigator.pushNamed(context, 'AppSubjectScreen');
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.blueAccent,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Icon(
+                          Icons.school_rounded,
+                          color: Colors.white,
+                          size: 50,
+                        ),
+                        Text(
+                          'Lectuers',
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
+                MaterialButton(
+                  onPressed: () async {
+                    setState(() {
+                      isLoading = true;
+                    });
+
+                    setState(() {
+                      isLoading = false;
+                    });
+                    Navigator.pushNamed(context, 'AttendanceScreen');
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.green,
+                    ),
+                    child: const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Icon(
+                          Icons.qr_code_scanner_rounded,
+                          color: Colors.white,
+                          size: 50,
+                        ),
+                        Text(
+                          'Attendance',
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                MaterialButton(
+                  onPressed: () async {
+                    setState(() {
+                      isLoading = true;
+                    });
+
+                    await YearsData.getStudentsData().then((value) {
+                      setState(() {
+                        isLoading = false;
+                      });
+                      Navigator.pushNamed(context, 'StudentsDataScreen');
+                    });
 
 
-            ],
-          ),
-            isLoading?Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              color: Color(0x80000000),
-              child: Center(child: CircularProgressIndicator(),),
-            ):Container(),
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.green,
+                    ),
+                    child: const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Icon(
+                          Icons.person_rounded,
+                          color: Colors.white,
+                          size: 50,
+                        ),
+                        Text(
+                          'Students',
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            isLoading
+                ? Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    color: Color(0x80000000),
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  )
+                : Container(),
           ],
         ),
       ),
