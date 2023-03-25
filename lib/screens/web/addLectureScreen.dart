@@ -4,8 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
-import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
-import '../../firebase/web/fireweb.dart';
+ import '../../firebase/web/fireweb.dart';
 
 class AddLectuer extends StatefulWidget {
   const AddLectuer({Key? key}) : super(key: key);
@@ -138,15 +137,8 @@ class _AddLectuerState extends State<AddLectuer> {
                     ),
                   ],
                 )
-                    :  LiquidCircularProgressIndicator(
-                  value: progress / 100,
-                  valueColor: AlwaysStoppedAnimation(Colors.green),
-                  backgroundColor: Colors.white,
-                  direction: Axis.vertical,
-                  center: Text(
-                    "$progress%",
-
-                  ),
+                    :  const Center(
+                  child: CircularProgressIndicator(),
                 ),
               ),
             )),

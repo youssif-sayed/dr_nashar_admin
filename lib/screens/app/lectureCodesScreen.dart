@@ -17,6 +17,15 @@ class _AppLectureCodeScreenState extends State<AppLectureCodeScreen> {
   String codesnumbers='';
   String codesExpiretimes='';
   String price='';
+  String searchText='';
+  bool isFound=false;
+  var foundCodes ;
+  @override
+  void initState() {
+     foundCodes= YearsData.lectureCodes;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,10 +47,45 @@ class _AppLectureCodeScreenState extends State<AppLectureCodeScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 12),
+                child: TextField(
+                  onChanged: (value) {
+                    if (value=='')
+                      {
+                        setState(() {
+                          foundCodes=YearsData.lectureCodes;
+                        });
+                      }
+                    else{
+                      searchText=value;
+                    }
+                  },
+                  decoration:  InputDecoration(
+                      labelText: 'Search', suffixIcon:   IconButton(onPressed: (){
+                        isFound =foundCodes.containsKey(searchText);
+                        if(isFound){
+                          setState(() {
+                            foundCodes= {searchText:foundCodes[searchText]};
+                          });
+
+
+                        }
+                        else{
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("code not found")));
+                        }
+                  },icon: Icon(Icons.search)),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(color: Colors.blueAccent)
+                  )),
+                ),
+              ),
+
               Expanded(
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: YearsData.lectureCodes.keys.length,
+                  itemCount: foundCodes.keys.length,
                     itemBuilder: (contect,index){
                   return Card(
                     child: Padding(
@@ -49,17 +93,19 @@ class _AppLectureCodeScreenState extends State<AppLectureCodeScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(YearsData.lectureCodes.keys.elementAt(index),style: TextStyle(fontSize: 20),),
+                          Text(foundCodes.keys.elementAt(index),style: TextStyle(fontSize: 20),),
                           Row(
                             children: [
                               Text(
-                                YearsData.lectureCodes.values.elementAt(index)['used']?'used':'not used',
-                              style: TextStyle(fontSize: 20,color:YearsData.lectureCodes.values.elementAt(index)['used']? Colors.red:Colors.green),
+                                foundCodes.values.elementAt(index)['used']?'used':'not used',
+                              style: TextStyle(fontSize: 20,color:foundCodes.values.elementAt(index)['used']? Colors.red:Colors.green),
                               ),
                               IconButton(onPressed: () async {
-                                await FirebaseFirestore.instance.collection('codes').doc('general').update({'${YearsData.lectureCodes.keys.elementAt(index)}':FieldValue.delete()});
+                                await FirebaseFirestore.instance.collection('codes').doc('general').update({'${foundCodes.keys.elementAt(index)}':FieldValue.delete()});
                                 setState(() {
-                                  YearsData.lectureCodes.remove('${YearsData.lectureCodes.keys.elementAt(index)}');
+                                  var deletedCode=foundCodes.keys.elementAt(index);
+                                  YearsData.lectureCodes.remove('${deletedCode}');
+                                  foundCodes.remove('${deletedCode}');
                                 });
                                 }, icon: Icon(Icons.delete_rounded,color: Colors.red,)),
                             ],

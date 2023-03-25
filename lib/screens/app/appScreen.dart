@@ -133,6 +133,50 @@ class _AppScreenState extends State<AppScreen> {
                   ),
                 ),
               ),
+              MaterialButton(
+                onPressed: () async {
+                  setState(() {
+                    isLoading = true;
+                  });
+
+                  await YearsData.getStudentsData().then((value) {
+                    setState(() {
+                      isLoading = false;
+                    });
+                    Navigator.pushNamed(context, 'StudentsDataScreen');
+                  });
+
+
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.red,
+                  ),
+                  child:  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Icon(
+                        Icons.person_rounded,
+                        color: Colors.white,
+                        size: 50,
+                      ),
+                      Text(
+                        'Students',
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
 
 
             ],

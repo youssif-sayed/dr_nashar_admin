@@ -1,13 +1,9 @@
 import 'dart:math';
-import 'dart:typed_data';
 import 'dart:io';
 import 'package:open_document/open_document.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
+//import 'package:pdf/widgets.dart' as pw;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dr_nashar_admin/firebase/app/yearsdata.dart';
-import 'package:path/path.dart';
 import 'package:excel/excel.dart';
 
 
@@ -22,7 +18,7 @@ class FireApp{
     Map<String,dynamic> newMap={};
     for (int i=0;i<num;i++)
     {
-      stringCodes.add('AS-${codes[i]}');
+      stringCodes.add('DN-${codes[i]}');
       newMap.addAll({stringCodes[i]:codeMap});
     }
     final docRef = FirebaseFirestore.instance.collection("codes").doc("general");
@@ -33,7 +29,7 @@ class FireApp{
 
 
   static Future<List<int>?> createInvoice(list) async {
-    final pdf = pw.Document();
+    //final pdf = pw.Document();
     var excel = Excel.createExcel();
     Sheet sheetObject = excel[excel.getDefaultSheet()!];
     for(int i =0;i<list.length;i++)
