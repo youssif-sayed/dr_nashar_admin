@@ -1,18 +1,19 @@
-
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dr_nashar_admin/components.dart';
+import 'package:dr_nashar_admin/screens/models/lecture_model.dart';
 
 class YearsData {
   static var sec1, sec2, sec3, prep1, prep2, prep3;
-  static var selectedSubject, selectedYear, subjectData;
+  static var selectedSubject, selectedYear;
+  static List<LectureModel> subjectData = [];
   static var lectureNumber, lectureCodes, lectureID;
   static var studentsData, studentWork, studentAssignments, studentQuizzes;
 
   static Future<bool> get_years_data() async {
-    await FirebaseFirestore.instance.collection("sec1-lectures").get().then((value) {
-
+    await FirebaseFirestore.instance
+        .collection("sec1-lectures")
+        .get()
+        .then((value) {
       sec1 = value.docs;
     });
     await FirebaseFirestore.instance
@@ -46,24 +47,33 @@ class YearsData {
       prep3 = value.docs;
     });
 
-
     return true;
   }
-  static Future<bool> get_subject_data() async {
+
+  static Future<List<LectureModel>> get_subject_data() async {
     await FirebaseFirestore.instance
         .collection("${selectedYear}-lectures")
         .doc('${selectedSubject}')
-        .collection('videos')
+        .collection('lectures')
         .get()
         .then((value) {
-      subjectData = value.docs;
+      try {
+        subjectData =
+            value.docs.map((e) => LectureModel.fromJson(e.data())).toList();
+      } catch (e) {
+        print(e);
+      }
     });
-    return true;
+    return subjectData;
   }
-  static Future<bool> get_codes() async {
 
-    await FirebaseFirestore.instance.collection("codes").doc('general').get().then((value) {
-      lectureCodes=value.data() as Map<String,dynamic>;
+  static Future<bool> get_codes() async {
+    await FirebaseFirestore.instance
+        .collection("codes")
+        .doc('general')
+        .get()
+        .then((value) {
+      lectureCodes = value.data() as Map<String, dynamic>;
     });
     return true;
   }
@@ -109,34 +119,33 @@ class YearsData {
     });
   }
 
-  static Future updateAssignmentMark({
-    required String userID,
-    required String documentID,
-    required String totalMarks,
-  }) async {
+  static Future updateAssignmentMark(
+      {required String userID,
+      required String documentID,
+      required String totalMarks,
+      required String stepsMarks}) async {
     await FirebaseFirestore.instance
         .collection("userData")
         .doc(userID)
         .collection('assignments')
         .doc(documentID)
         .update(
-      {'total_marks': totalMarks},
+      {'steps_marks': stepsMarks, 'total_marks': totalMarks},
     );
   }
 
-  static Future  updateQuizMark({
-    required String userID,
-    required String documentID,
-    required String totalMarks,
-  }) async {
-
+  static Future updateQuizMark(
+      {required String userID,
+      required String documentID,
+      required String totalMarks,
+      required String stepsMarks}) async {
     await FirebaseFirestore.instance
         .collection("userData")
         .doc(userID)
         .collection('quizzes')
         .doc(documentID)
         .update(
-      {'total_marks': totalMarks},
+      {'steps_marks': stepsMarks, 'total_marks': totalMarks},
     );
   }
 }

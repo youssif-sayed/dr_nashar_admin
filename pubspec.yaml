@@ -30,7 +30,11 @@ dependencies:
   dependencies:
   excel: ^2.0.4
   liquid_progress_indicator: ^0.4.0
-  qr_code_scanner:
+  mobile_scanner: ^3.1.1
+  flutter_bloc: ^8.1.2
+  fluttertoast: ^8.2.1
+
+
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:dr_nashar_admin/screens/models/questionModel.dart';
+import 'package:dr_nashar_admin/screens/models/question_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

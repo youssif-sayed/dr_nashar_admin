@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
@@ -7,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../constants/appBar.dart';
-import '../models/questionModel.dart';
+import '../models/question_model.dart';
 
 class AddQuestionScreen extends StatefulWidget {
   final List<QuestionModel> questionsList;
@@ -20,16 +19,11 @@ class AddQuestionScreen extends StatefulWidget {
 
 class _AddQuestionScreenState extends State<AddQuestionScreen> {
   String questionText = '';
-  List<Answer> answers = [
-    Answer(answerID: 1, answerText: ''),
-    Answer(answerID: 2, answerText: ''),
-    Answer(answerID: 3, answerText: ''),
-    Answer(answerID: 4, answerText: ''),
-  ];
-  String rightAnswer = '';
+  List<String> choices = List.filled(4, '');
+  String answer = '';
   final ImagePicker _picker = ImagePicker();
-   XFile? image;
-   int mark = 1;
+  XFile? image;
+  int mark = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +88,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                   ),
                   CircleAvatar(
                     child: IconButton(
-                        onPressed: ()  async{
+                        onPressed: () async {
                           image = await _picker.pickImage(
                               source: ImageSource.gallery);
                         },
@@ -143,7 +137,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                               border: Border.all(color: Colors.blueAccent)),
                           child: TextField(
                             onChanged: (value) {
-                              answers[index].answerText = value;
+                              choices[index] = value;
                             },
                             decoration: const InputDecoration(
                               border: InputBorder.none,
@@ -199,7 +193,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                           LengthLimitingTextInputFormatter(1),
                         ],
                         onChanged: (value) {
-                          rightAnswer = value;
+                          answer = value;
                         },
                         decoration: const InputDecoration(
                           filled: true,
@@ -223,23 +217,26 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                 child: ElevatedButton(
                   onPressed: () {
                     if (questionText.isNotEmpty &&
-                        rightAnswer.isNotEmpty &&
-                        answers[0].answerText.isNotEmpty &&
-                        answers[1].answerText.isNotEmpty &&
-                        answers[2].answerText.isNotEmpty &&
-                        answers[3].answerText.isNotEmpty) {
-                      if (int.parse(rightAnswer) <= 4 &&
-                          int.parse(rightAnswer) > 0) {
-                        widget.questionsList.add(
-                          QuestionModel(
-                            questionID: Random().nextInt(999),
-                            questionText: questionText,
-                            questionImage: image?.path ?? '',
-                            answers: answers,
-                            rightAnswer: rightAnswer,
-                            mark: mark,
-                          ),
-                        );
+                        answer.isNotEmpty &&
+                        choices.length == 4) {
+                      if (int.parse(answer) <= 4 && int.parse(answer) > 0) {
+                        widget.questionsList.add(QuestionModel(
+                          id: Random().nextInt(999).toString(),
+                          text: questionText,
+                          choices: choices,
+                          answer: answer,
+                          image: image?.path,
+                          mark: mark,
+                        )
+                            // QuestionModel(
+                            //   questionID: Random().nextInt(999),
+                            //   questionText: questionText,
+                            //   questionImage: image?.path ?? '',
+                            //   answers: answers,
+                            //   rightAnswer: rightAnswer,
+                            //   mark: mark,
+                            // ),
+                            );
                         Navigator.of(context).pop();
                       } else {
                         showDialog(

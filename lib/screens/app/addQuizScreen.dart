@@ -6,20 +6,30 @@ import 'package:dr_nashar_admin/firebase/app/yearsdata.dart';
 import 'package:dr_nashar_admin/screens/app/addQuestion.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../models/question_model.dart';
+import '../models/lecture_model.dart';
+import 'lecture_screen/bloc/lecture_bloc.dart';
+import 'lecture_screen/bloc/lecture_event.dart';
 
 class AddQuizScreen extends StatefulWidget {
-  const AddQuizScreen({Key? key}) : super(key: key);
-
+  const AddQuizScreen({Key? key, required this.lecture}) : super(key: key);
+  final LectureModel lecture;
   @override
   State<AddQuizScreen> createState() => _AddQuizScreenState();
 }
 
 class _AddQuizScreenState extends State<AddQuizScreen> {
   final firestoreInstance = FirebaseFirestore.instance;
-  int totalMarks = 0;
+  List<QuestionModel> questions = [];
 
+  int stepMarks = 0;
   @override
   Widget build(BuildContext context) {
+    int totalMarks = 0;
+    questions.forEach((question) => totalMarks += question.mark);
+
     return Scaffold(
       appBar: AppBar(
         title: const Image(
@@ -52,7 +62,6 @@ class _AddQuizScreenState extends State<AddQuizScreen> {
                           onPressed: () {
                             Navigator.of(context).pop();
                             Navigator.of(context).pop();
-                            quizQuestions = [];
                           },
                         ),
                         const SizedBox(
@@ -101,7 +110,7 @@ class _AddQuizScreenState extends State<AddQuizScreen> {
               ),
 
               // Questions List
-              quizQuestions.isNotEmpty
+              questions.isNotEmpty
                   ? Column(
                       children: [
                         ListView.separated(
@@ -113,21 +122,25 @@ class _AddQuizScreenState extends State<AddQuizScreen> {
                             );
                           },
                           itemBuilder: (context, index) {
+                            totalMarks = 0;
+                            for (var question in questions) {
+                              totalMarks += question.mark;
+                            }
                             return QuestionItem(
-                              questionMark: quizQuestions[index].mark,
+                              mark: questions[index].mark,
                               questionNumber: index + 1,
-                              questionText: quizQuestions[index].questionText,
-                              questionImage: quizQuestions[index].questionImage,
-                              answers: quizQuestions[index].answers,
-                              rightAnswer: quizQuestions[index].rightAnswer,
+                              text: questions[index].text,
+                              image: questions[index].image,
+                              choices: questions[index].choices,
+                              answer: questions[index].answer,
                               removeQuestion: () {
                                 setState(() {
-                                  quizQuestions.removeAt(index);
+                                  questions.removeAt(index);
                                 });
                               },
                             );
                           },
-                          itemCount: quizQuestions.length,
+                          itemCount: questions.length,
                         ),
 
                         const SizedBox(
@@ -148,25 +161,16 @@ class _AddQuizScreenState extends State<AddQuizScreen> {
                               width: 20.0,
                             ),
                             Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    border: Border.all(color: Colors.grey)),
-                                child: TextField(
-                                  keyboardType: TextInputType.number,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      totalMarks = int.parse(value);
-                                    });
-                                  },
-                                  decoration: const InputDecoration(
-                                    border: InputBorder.none,
-                                    fillColor: Colors.grey,
-                                    filled: true,
+                              child: Center(
+                                child: Text(
+                                  (totalMarks + stepMarks).toString(),
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20.0,
                                   ),
                                 ),
                               ),
-                            ),
+                            )
                           ],
                         ),
                       ],
@@ -199,14 +203,14 @@ class _AddQuizScreenState extends State<AddQuizScreen> {
                 onPressed: () {
                   Navigator.of(context)
                       .push(MaterialPageRoute(
-                          builder: (context) =>
-                              AddQuestionScreen(quizQuestions)))
+                          builder: (context) => AddQuestionScreen(questions)))
                       .then((value) {
                     setState(() {});
                   });
                 },
                 child: const Text(
                   'Add question',
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20.0,
@@ -224,55 +228,69 @@ class _AddQuizScreenState extends State<AddQuizScreen> {
                   backgroundColor: Colors.green,
                   shape: const StadiumBorder(),
                 ),
-                onPressed: quizQuestions.isNotEmpty
+                onPressed: questions.isNotEmpty
                     ? () async {
                         if (totalMarks != 0) {
                           showLoadingDialog(context);
-                          if (quizQuestions.isNotEmpty) {
+                          if (questions.isNotEmpty) {
                             final firebaseStorage = FirebaseStorage.instance;
 
-                            for (int i = 0; i < quizQuestions.length; i++) {
-                              if (quizQuestions[i].questionImage.isNotEmpty) {
+                            for (int i = 0; i < questions.length; i++) {
+                              var question = questions[i];
+                              var image = questions[i].image;
+                              if (image != null) {
                                 var snapshot = await firebaseStorage
                                     .ref()
                                     .child(
-                                        'images/quizzes/${YearsData.selectedYear}-${YearsData.selectedSubject}-${quizQuestions[i].questionID}')
-                                    .putFile(
-                                        File(quizQuestions[i].questionImage))
-                                    .whenComplete(() {
-
-                                });
+                                        'images/quizzes/${YearsData.selectedYear}-${YearsData.selectedSubject}-${question.id}')
+                                    .putFile(File(image))
+                                    .whenComplete(() {});
                                 var downloadUrl =
                                     await snapshot.ref.getDownloadURL();
-                                setState(() {
-                                  quizQuestions[i].questionImage = downloadUrl;
-                                });
+                                questions[i] =
+                                    question.copyWith(image: downloadUrl);
                               }
                             }
-                          }
 
-                          List quizQs = [];
+                            var previousQuiz = widget.lecture.quiz;
 
-                          for (var element in quizQuestions) {
-                            quizQs.add(element.toMap());
-                          }
+                            var previousQuestions = previousQuiz?.questions;
 
-                          if (quizQs.isNotEmpty) {
-                            firestoreInstance
+                            if (previousQuestions != null) {
+                              questions.addAll(previousQuestions);
+                            }
+
+                            var quiz = previousQuiz == null
+                                ? Quiz(
+                                    questions: questions,
+                                    stepsMarks: stepMarks,
+                                  )
+                                : previousQuiz.copyWith(
+                                    questions: questions,
+                                    stepsMarks: stepMarks,
+                                  );
+
+                            var lecture = widget.lecture.copyWith(quiz: quiz);
+
+                            await firestoreInstance
                                 .collection(
                                     "${YearsData.selectedYear}-lectures")
                                 .doc('${YearsData.selectedSubject}')
-                                .collection('quiz')
-                                .add({
-                              '${YearsData.selectedYear}-${YearsData.selectedSubject}-quiz':
-                                  quizQs,
-                              'total_marks': totalMarks,
-                            }).then((value) {
-                              print(value.id);
+                                .collection('lectures')
+                                .doc(widget.lecture.id)
+                                .set(
+                                  lecture.toJson(),
+                                );
+
+                            if (mounted) {
+                              // notify the lecture pages of the change
+
+                              BlocProvider.of<LectureBloc>(context)
+                                  .add(ChangeLectureDetails(lecture));
+
                               Navigator.of(context).pop();
-                              Navigator.of(context).pop();
-                              quizQuestions = [];
-                            });
+                              Navigator.of(context).pop(quiz);
+                            }
                           }
                         } else {
                           showDialog(

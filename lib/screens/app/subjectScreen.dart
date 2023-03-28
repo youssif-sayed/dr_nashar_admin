@@ -3,18 +3,13 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
-
 import 'package:flutter/material.dart';
 
 // Package imports:
 
-
 import 'package:shimmer/shimmer.dart';
 
 import '../../firebase/app/yearsdata.dart';
-
-
 
 class AppSubjectScreen extends StatefulWidget {
   const AppSubjectScreen({Key? key}) : super(key: key);
@@ -63,7 +58,6 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-
         centerTitle: true,
         shadowColor: Colors.transparent,
         backgroundColor: Colors.white,
@@ -95,9 +89,10 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                       ],
                     ),
                   ),
-
                 ),
-                SizedBox(height: 24,),
+                SizedBox(
+                  height: 24,
+                ),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
@@ -119,7 +114,7 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                           ),
                           decoration: BoxDecoration(
                               color:
-                              selectedYear == 'sec1' ? Colors.black : null,
+                                  selectedYear == 'sec1' ? Colors.black : null,
                               borderRadius: BorderRadius.circular(50),
                               border: selectedYear == 'sec1'
                                   ? null
@@ -146,7 +141,7 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                           ),
                           decoration: BoxDecoration(
                               color:
-                              selectedYear == 'sec2' ? Colors.black : null,
+                                  selectedYear == 'sec2' ? Colors.black : null,
                               borderRadius: BorderRadius.circular(50),
                               border: selectedYear == 'sec2'
                                   ? null
@@ -173,7 +168,7 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                           ),
                           decoration: BoxDecoration(
                               color:
-                              selectedYear == 'sec3' ? Colors.black : null,
+                                  selectedYear == 'sec3' ? Colors.black : null,
                               borderRadius: BorderRadius.circular(50),
                               border: selectedYear == 'sec3'
                                   ? null
@@ -200,7 +195,7 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                           ),
                           decoration: BoxDecoration(
                               color:
-                              selectedYear == 'prep1' ? Colors.black : null,
+                                  selectedYear == 'prep1' ? Colors.black : null,
                               borderRadius: BorderRadius.circular(50),
                               border: selectedYear == 'prep1'
                                   ? null
@@ -227,7 +222,7 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                           ),
                           decoration: BoxDecoration(
                               color:
-                              selectedYear == 'prep2' ? Colors.black : null,
+                                  selectedYear == 'prep2' ? Colors.black : null,
                               borderRadius: BorderRadius.circular(50),
                               border: selectedYear == 'prep2'
                                   ? null
@@ -254,7 +249,7 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                           ),
                           decoration: BoxDecoration(
                               color:
-                              selectedYear == 'prep3' ? Colors.black : null,
+                                  selectedYear == 'prep3' ? Colors.black : null,
                               borderRadius: BorderRadius.circular(50),
                               border: selectedYear == 'prep3'
                                   ? null
@@ -274,7 +269,6 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                     itemBuilder: (BuildContext context, int index) {
                       return Subject(index);
                     }),
-
               ],
             ),
           ),
@@ -286,7 +280,9 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
   Widget Subject(int index) {
     return Column(
       children: [
-        SizedBox(height: 24,),
+        SizedBox(
+          height: 24,
+        ),
         Stack(
           children: [
             Container(
@@ -301,7 +297,6 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                       child: Container(
                         height: 150,
                         color: Colors.grey,
-
                       ),
                       highlightColor: Colors.white,
                       baseColor: Colors.grey,
@@ -323,10 +318,10 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                               fontSize: 25, fontWeight: FontWeight.bold),
                         ),
                         InkWell(
-                          onTap: (){
-                            YearsData.selectedSubject=fetchedyear[index].id;
-                            YearsData.selectedYear=selectedYear;
-                            Navigator.pushNamed(context, 'AppLoadingLectureScreen');
+                          onTap: () {
+                            YearsData.selectedSubject = fetchedyear[index].id;
+                            YearsData.selectedYear = selectedYear;
+                            Navigator.pushNamed(context, 'AppLectureScreen');
                           },
                           child: Container(
                             decoration: BoxDecoration(
