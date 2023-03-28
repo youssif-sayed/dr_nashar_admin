@@ -1,30 +1,28 @@
 import 'dart:io';
 
-import 'package:dr_nashar_admin/screens/models/questionModel.dart';
+import 'package:dr_nashar_admin/screens/models/question_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-List<QuestionModel> quizQuestions = [];
-List<QuestionModel> assignmentQuestions = [];
+import 'package:fluttertoast/fluttertoast.dart';
 
 class QuestionItem extends StatelessWidget {
   final int questionNumber;
-  final String questionText;
-  final String questionImage;
-  final List<Answer> answers;
-  final String rightAnswer;
+  final String text;
+  final String? image;
+  final List<String> choices;
+  final String answer;
   final VoidCallback removeQuestion;
-  final int questionMark;
+  final int mark;
 
   const QuestionItem({
     super.key,
     required this.questionNumber,
-    required this.questionText,
-    required this.questionImage,
-    required this.answers,
-    required this.rightAnswer,
+    required this.text,
+    required this.image,
+    required this.choices,
+    required this.answer,
     required this.removeQuestion,
-    required this.questionMark,
+    required this.mark,
   });
 
   @override
@@ -53,7 +51,7 @@ class QuestionItem extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    questionText,
+                    text,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 15.0,
@@ -62,10 +60,13 @@ class QuestionItem extends StatelessWidget {
                     maxLines: 5,
                   ),
                 ),
-                Text('Mark: $questionMark', style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue,
-                ),),
+                Text(
+                  'Mark: $mark',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                  ),
+                ),
               ],
             ),
 
@@ -73,8 +74,8 @@ class QuestionItem extends StatelessWidget {
               height: 20.0,
             ),
 
-            questionImage.isNotEmpty
-                ? Image.file(File(questionImage), fit: BoxFit.cover)
+            image != null
+                ? Image.file(File(image!), fit: BoxFit.cover)
                 : const SizedBox(),
 
             const SizedBox(
@@ -101,7 +102,7 @@ class QuestionItem extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        answers[index].answerText,
+                        choices[index],
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 15.0,
@@ -141,7 +142,7 @@ class QuestionItem extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      rightAnswer,
+                      answer,
                       style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 15.0,
@@ -161,9 +162,9 @@ class QuestionItem extends StatelessWidget {
             Align(
               alignment: AlignmentDirectional.centerEnd,
               child: IconButton(
-                  onPressed: removeQuestion,
-                  icon: const Icon(Icons.delete,
-                      color: Colors.red, size: 30.0),),
+                onPressed: removeQuestion,
+                icon: const Icon(Icons.delete, color: Colors.red, size: 30.0),
+              ),
             ),
           ],
         ),
@@ -187,4 +188,26 @@ showLoadingDialog(context) {
     ),
     barrierDismissible: false,
   );
+}
+
+bool isToastShown = false;
+
+void showToast(String message, ToastGravity toastGravity) {
+  // toastGravity ??= ToastGravity.CENTER
+
+  if (!isToastShown) {
+    isToastShown = true;
+    Fluttertoast.showToast(
+            msg: message,
+            toastLength: Toast.LENGTH_LONG,
+            gravity: toastGravity,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.white,
+            textColor: Colors.black,
+            fontSize: 16.0)
+        .then((value) async{
+          await Future.delayed(const Duration(milliseconds:500));
+          isToastShown = false;
+        } );
+  }
 }

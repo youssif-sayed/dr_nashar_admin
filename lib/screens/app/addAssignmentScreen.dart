@@ -4,22 +4,31 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dr_nashar_admin/components.dart';
 import 'package:dr_nashar_admin/firebase/app/yearsdata.dart';
 import 'package:dr_nashar_admin/screens/app/addQuestion.dart';
+import 'package:dr_nashar_admin/screens/app/lecture_screen/bloc/lecture_bloc.dart';
+import 'package:dr_nashar_admin/screens/app/lecture_screen/bloc/lecture_event.dart';
+import 'package:dr_nashar_admin/screens/models/lecture_model.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../models/question_model.dart';
 
 class AddAssignmentScreen extends StatefulWidget {
-  const AddAssignmentScreen({Key? key}) : super(key: key);
-
+  const AddAssignmentScreen({Key? key, required this.lecture})
+      : super(key: key);
+  final LectureModel lecture;
   @override
   State<AddAssignmentScreen> createState() => _AddAssignmentScreenState();
 }
 
 class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
+  List<QuestionModel> questions = [];
   final firestoreInstance = FirebaseFirestore.instance;
-  int totalMarks = 0;
-
+  int stepMarks = 0;
   @override
   Widget build(BuildContext context) {
+    int totalMarks = 0;
+    questions.forEach((question) => totalMarks += question.mark);
     return Scaffold(
       appBar: AppBar(
         title: const Image(
@@ -53,7 +62,6 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
                           onPressed: () {
                             Navigator.of(context).pop();
                             Navigator.of(context).pop();
-                            assignmentQuestions = [];
                           },
                         ),
                         const SizedBox(
@@ -102,7 +110,7 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
               ),
 
               // Questions List
-              assignmentQuestions.isNotEmpty
+              questions.isNotEmpty
                   ? Column(
                       children: [
                         ListView.separated(
@@ -115,23 +123,20 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
                           },
                           itemBuilder: (context, index) {
                             return QuestionItem(
-                              questionMark: assignmentQuestions[index].mark,
+                              mark: questions[index].mark,
                               questionNumber: index + 1,
-                              questionText:
-                                  assignmentQuestions[index].questionText,
-                              questionImage:
-                                  assignmentQuestions[index].questionImage,
-                              answers: assignmentQuestions[index].answers,
-                              rightAnswer:
-                                  assignmentQuestions[index].rightAnswer,
+                              text: questions[index].text,
+                              image: questions[index].image,
+                              choices: questions[index].choices,
+                              answer: questions[index].answer,
                               removeQuestion: () {
                                 setState(() {
-                                  assignmentQuestions.removeAt(index);
+                                  questions.removeAt(index);
                                 });
                               },
                             );
                           },
-                          itemCount: assignmentQuestions.length,
+                          itemCount: questions.length,
                         ),
 
                         const SizedBox(
@@ -152,6 +157,31 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
                               width: 20.0,
                             ),
                             Expanded(
+                              child: Center(
+                                child: Text(
+                                  (totalMarks + stepMarks).toString(),
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20.0,
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Text(
+                              'Steps Marks',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.0,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 20.0,
+                            ),
+                            Expanded(
                               child: Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
@@ -159,9 +189,15 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
                                 child: TextField(
                                   keyboardType: TextInputType.number,
                                   onChanged: (value) {
-                                    setState(() {
-                                      totalMarks = int.parse(value);
-                                    });
+                                    setState(
+                                      () {
+                                        if (value.isNotEmpty) {
+                                          stepMarks = int.parse(value);
+                                        } else {
+                                          stepMarks = 0;
+                                        }
+                                      },
+                                    );
                                   },
                                   decoration: const InputDecoration(
                                     border: InputBorder.none,
@@ -202,14 +238,14 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
                 onPressed: () {
                   Navigator.of(context)
                       .push(MaterialPageRoute(
-                          builder: (context) =>
-                              AddQuestionScreen(assignmentQuestions)))
+                          builder: (context) => AddQuestionScreen(questions)))
                       .then((value) {
                     setState(() {});
                   });
                 },
                 child: const Text(
                   'Add question',
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20.0,
@@ -227,56 +263,72 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
                   backgroundColor: Colors.green,
                   shape: const StadiumBorder(),
                 ),
-                onPressed: assignmentQuestions.isNotEmpty
+                onPressed: questions.isNotEmpty
                     ? () async {
                         if (totalMarks != 0) {
                           showLoadingDialog(context);
-                          if (assignmentQuestions.isNotEmpty) {
+                          if (questions.isNotEmpty) {
                             final firebaseStorage = FirebaseStorage.instance;
 
-                            for (int i = 0; i < assignmentQuestions.length; i++) {
-                              if (assignmentQuestions[i].questionImage.isNotEmpty) {
+                            for (int i = 0; i < questions.length; i++) {
+                              var question = questions[i];
+                              var image = questions[i].image;
+
+                              if (image != null) {
                                 var snapshot = await firebaseStorage
                                     .ref()
                                     .child(
-                                        'images/assignments/${YearsData.selectedYear}-${YearsData.selectedSubject}-${assignmentQuestions[i].questionID}')
-                                    .putFile(File(
-                                        assignmentQuestions[i].questionImage))
+                                        'images/assignments/${YearsData.selectedYear}-${YearsData.selectedSubject}-${question.id}')
+                                    .putFile(File(image))
                                     .whenComplete(() {
                                   print('COMPLETED!');
                                 });
                                 var downloadUrl =
                                     await snapshot.ref.getDownloadURL();
-                                setState(() {
-                                  assignmentQuestions[i].questionImage =
-                                      downloadUrl;
-                                });
+                                questions[i] =
+                                    question.copyWith(image: downloadUrl);
                               }
                             }
-                          }
 
-                          List assignmentQs = [];
+                            var previousAssignment = widget.lecture.assignment;
+                            var previousQuestions =
+                                previousAssignment?.questions;
 
-                          for (var element in assignmentQuestions) {
-                            assignmentQs.add(element.toMap());
-                          }
+                            if (previousQuestions != null) {
+                              questions.addAll(previousQuestions);
+                            }
 
-                          if (assignmentQs.isNotEmpty) {
-                            firestoreInstance
+                            var assignment = previousAssignment == null
+                                ? Assignment(
+                                    questions: questions,
+                                    stepsMarks: stepMarks,
+                                  )
+                                : previousAssignment.copyWith(
+                                    questions: questions,
+                                    stepsMarks: stepMarks,
+                                  );
+
+                            var lecture =
+                                widget.lecture.copyWith(assignment: assignment);
+
+                            await firestoreInstance
                                 .collection(
                                     "${YearsData.selectedYear}-lectures")
                                 .doc('${YearsData.selectedSubject}')
-                                .collection('assignment')
-                                .add({
-                              '${YearsData.selectedYear}-${YearsData.selectedSubject}-assignment':
-                                  assignmentQs,
-                              'total_marks': totalMarks,
-                            }).then((value) {
-                              print(value.id);
+                                .collection('lectures')
+                                .doc(widget.lecture.id)
+                                .set(
+                                  lecture.toJson(),
+                                );
+
+                            if (mounted) {
+                              // notify the lecture pages of the change
+                              BlocProvider.of<LectureBloc>(context)
+                                  .add(ChangeLectureDetails(lecture));
+
                               Navigator.of(context).pop();
-                              Navigator.of(context).pop();
-                              assignmentQuestions = [];
-                            });
+                              Navigator.of(context).pop(assignment);
+                            }
                           }
                         } else {
                           showDialog(

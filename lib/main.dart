@@ -1,7 +1,7 @@
 import 'package:dr_nashar_admin/screens/app/addLecture.dart';
 import 'package:dr_nashar_admin/screens/app/addQuestion.dart';
 import 'package:dr_nashar_admin/screens/app/addQuizScreen.dart';
-import 'package:dr_nashar_admin/screens/app/appLectureScreen.dart';
+import 'package:dr_nashar_admin/screens/app/lecture_screen/appLectureScreen.dart';
 import 'package:dr_nashar_admin/screens/app/appScreen.dart';
 import 'package:dr_nashar_admin/screens/app/attendanceScreen.dart';
 import 'package:dr_nashar_admin/screens/app/lectureCodesScreen.dart';
@@ -24,15 +24,18 @@ import 'package:dr_nashar_admin/screens/web/topStudentsScreen.dart';
 import 'package:dr_nashar_admin/screens/web/website.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'firebase_options.dart';
+import 'screens/app/lecture_screen/bloc/lecture_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(
+      BlocProvider(create: (context) => LectureBloc(), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -44,35 +47,34 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: IntroScreen(),
       routes: {
-        'Intro':(context) =>IntroScreen(),
-        'WebSiteScreen':(context)=>WebSiteScreen(),
-        'LectuerScreen':(context)=>LectuerScreen(),
-        'SubjectScreen':(context)=>SubjectScreen(),
-        'AddLecture' :(context)=>AddLectuer(),
-        'MathAndEnglishScreen' :(context)=>MathAndEnglishScreen(),
-        'AddMELectureScreen' :(context)=>AddMELectuer(),
-        'TopStudentsScreen' :(context)=>TopStudentsScreen(),
-        'TopStudentListScreen' :(context)=>TopStudentListScreen(),
-        'AddTopStudentScreen' :(context)=>AddTopStudentScreen(),
-        'ImagesScreen' :(context)=>ImagesScreen(),
-        'AddNewsScreen':(context)=>ADDNewsScreen(),
-        'AddImageScreen' :(context)=>ADDImageScreen(),
-        'NewsScreen':(context)=>NewsScreen(),
-        'AppScreen' :(context)=>AppScreen(),
-        'AppSubjectScreen':(context)=>AppSubjectScreen(),
-        'AppLoadingLectureScreen':(context)=>AppLoadLectureScreen(),
-        'AppLectureScreen':(context)=>AppLectureScreen(),
-        'AppLectureCodesScreen':(context)=>AppLectureCodeScreen(),
-        'AppAddLectureScreen':(context)=>AppAddLectuerScreen(),
-        'AttendanceScreen':(context)=>AttendanceScreen(),
-        'AddQuizScreen':(context)=>AddQuizScreen(),
-        'StudentsDataScreen':(context)=>StudentsDataScreen(),
-
-
+        'Intro': (context) => IntroScreen(),
+        'WebSiteScreen': (context) => WebSiteScreen(),
+        'LectuerScreen': (context) => LectuerScreen(),
+        'SubjectScreen': (context) => SubjectScreen(),
+        'AddLecture': (context) => AddLectuer(),
+        'MathAndEnglishScreen': (context) => MathAndEnglishScreen(),
+        'AddMELectureScreen': (context) => AddMELectuer(),
+        'TopStudentsScreen': (context) => TopStudentsScreen(),
+        'TopStudentListScreen': (context) => TopStudentListScreen(),
+        'AddTopStudentScreen': (context) => AddTopStudentScreen(),
+        'ImagesScreen': (context) => ImagesScreen(),
+        'AddNewsScreen': (context) => ADDNewsScreen(),
+        'AddImageScreen': (context) => ADDImageScreen(),
+        'NewsScreen': (context) => NewsScreen(),
+        'AppScreen': (context) => AppScreen(),
+        'AppSubjectScreen': (context) => AppSubjectScreen(),
+        // 'AppLoadingLectureScreen':(context)=>AppLoadLectureScreen(),
+        'AppLectureScreen': (context) => AppLectureScreen(),
+        'AppLectureCodesScreen': (context) => AppLectureCodeScreen(),
+        'AppAddLectureScreen': (context) => AppAddLectuerScreen(),
+        'AttendanceScreen': (context) => AttendanceScreen(),
+        // 'AddQuizScreen': (context) => AddQuizScreen(),
+        'StudentsDataScreen': (context) => StudentsDataScreen(),
       },
       theme: ThemeData(
-        appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.blueAccent),),
-
+        appBarTheme: AppBarTheme(
+          iconTheme: IconThemeData(color: Colors.blueAccent),
+        ),
       ),
     );
   }
