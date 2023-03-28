@@ -8,6 +8,7 @@ class YearsData {
   static var sec1, sec2, sec3, prep1, prep2, prep3;
   static var selectedSubject, selectedYear, subjectData;
   static var lectureNumber, lectureCodes, lectureID;
+  static List<String> lectureLinkNames=[],lectureLinkVideosName=[],lectureLinkVideosUrls=[],lectureLinkDocsName=[],lectureLinkDocsUrls=[];
   static var studentsData, studentWork, studentAssignments, studentQuizzes;
 
   static Future<bool> get_years_data() async {

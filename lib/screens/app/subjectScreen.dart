@@ -27,6 +27,7 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
   @override
   var selectedYear = 'sec1';
   var fetchedyear;
+  var name,term;
   Widget build(BuildContext context) {
     switch (selectedYear) {
       case 'sec1':
@@ -274,7 +275,86 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                     itemBuilder: (BuildContext context, int index) {
                       return Subject(index);
                     }),
+                SizedBox(height: 12,),
+                MaterialButton(onPressed: (){
+                  showModalBottomSheet(context: context,isScrollControlled: true,shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
+                  ), builder: (context){
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom,),
+                      child: Container(
+                        height: 300,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(height: 34,),
+                                  TextField(
+                                    keyboardType: TextInputType.text,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      labelText: 'Subject Name',
+                                      hintText: 'Enter Subject Name',
+                                    ),
+                                    onChanged: (value){name=value;},),
+                                  SizedBox(height: 34,),
 
+
+                                  TextField(
+                                    keyboardType: TextInputType.text,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      labelText: 'Term',
+                                      hintText: 'Enter term Name',
+                                    ),
+                                    onChanged: (value){term=value;},),
+                                ],
+                              ),
+                            ),
+                            Column(
+                              children: [
+
+                                MaterialButton(
+                                  onPressed: () async {
+                                  if (name!=null&&term!=null){
+                                  Map<String,dynamic> addSubjectMap ={
+                                    'name':name,
+                                    'term':term,
+                                    'image':'${fetchedyear[0]['image']}'
+                                  };
+                                  await FirebaseFirestore.instance.collection("${selectedYear}-lectures").doc(name).set(addSubjectMap);
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
+                                  }
+
+                                }
+                                  ,child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    decoration: BoxDecoration(color: Colors.blueAccent,borderRadius: BorderRadius.circular(50)),
+                                    height: 50,
+                                    child: Center(child: Text('Enter',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25),),),
+                                  ),),
+                                SizedBox(height: 32,),
+                              ],
+                            ),
+
+                          ],
+                        ),
+                      ),
+                    );
+                  });
+                },
+                  child: Container(width: MediaQuery.of(context).size.width
+                      ,height: 40
+
+                      ,decoration: BoxDecoration(color: Colors.blueAccent,
+                  borderRadius: BorderRadius.circular(50)
+                  ),child: Center(child: Text('Add',style: TextStyle(color: Colors.white,fontSize: 25),))),
+                ),
               ],
             ),
           ),
@@ -354,25 +434,30 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
             ),
             Padding(
               padding: const EdgeInsets.all(15.0),
-              child: Container(
-                clipBehavior: Clip.hardEdge,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: ClipRect(
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: Colors.grey.shade200.withOpacity(0.5)),
-                      child: Text(
-                        '${fetchedyear[index]['term']}',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    clipBehavior: Clip.hardEdge,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: ClipRect(
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              color: Colors.grey.shade200.withOpacity(0.5)),
+                          child: Text(
+                            '${fetchedyear[index]['term']}',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
             )
           ],

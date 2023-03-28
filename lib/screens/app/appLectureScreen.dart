@@ -78,13 +78,13 @@ class _AppLectureScreenState extends State<AppLectureScreen> {
                                               ),
                                               child:  Row(
                                                 children: [
-                                                  Icon(Icons.add, color: CupertinoColors.lightBackgroundGray,),
+                                                  Icon(Icons.add, color: CupertinoColors.white,),
                                                   Text(
-                                                    'Quiz',
+                                                    'Q',
                                                     style: TextStyle(
                                                       fontSize: 15,
                                                       fontWeight: FontWeight.bold,
-                                                      color: CupertinoColors.lightBackgroundGray,
+                                                      color: CupertinoColors.white,
                                                     ),
                                                   ),
                                                 ],
@@ -108,13 +108,13 @@ class _AppLectureScreenState extends State<AppLectureScreen> {
                                               ),
                                               child:  Row(
                                                 children: [
-                                                  Icon(Icons.add, color: CupertinoColors.lightBackgroundGray,),
+                                                  Icon(Icons.add, color: CupertinoColors.white,),
                                                   Text(
-                                                    'Assignment',
+                                                    'A',
                                                     style: TextStyle(
                                                       fontSize: 15,
                                                       fontWeight: FontWeight.bold,
-                                                      color: CupertinoColors.lightBackgroundGray,
+                                                      color: CupertinoColors.white,
                                                     ),
                                                   ),
                                                 ],
@@ -122,7 +122,31 @@ class _AppLectureScreenState extends State<AppLectureScreen> {
                                             ),
                                           ),
                                           // Code
-
+                                          IconButton(onPressed: (){
+                                            YearsData.lectureLinkNames.add(YearsData.subjectData[index]['name']);
+                                            if (YearsData.subjectData[index]['videoName']!=null){
+                                            for(int i=0;i<YearsData.subjectData[index]['videoName'].length;i++){
+                                              YearsData.lectureLinkVideosName.add(YearsData.subjectData[index]['videoName'][i]);
+                                              YearsData.lectureLinkVideosUrls.add(YearsData.subjectData[index]['videos'][i]);
+                                            }}
+                                            if (YearsData.subjectData[index]['docName']!=null){
+                                            for(int i=0;i<YearsData.subjectData[index]['docName'].length;i++){
+                                              YearsData.lectureLinkDocsName.add(YearsData.subjectData[index]['docName'][i]);
+                                              YearsData.lectureLinkDocsUrls.add(YearsData.subjectData[index]['docs'][i]);
+                                            }
+                                            }
+                                            print(YearsData.lectureLinkNames);
+                                            print(YearsData.lectureLinkVideosName);
+                                            print(YearsData.lectureLinkVideosUrls);
+                                            print(YearsData.lectureLinkDocsName);
+                                            print(YearsData.lectureLinkDocsUrls);
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              SnackBar(
+                                                content:
+                                                Center(child: Text('Lectuer added!')),
+                                              ),
+                                            );
+                                          }, icon: Icon(Icons.add_link),color: Colors.blueAccent,),
                                           IconButton(
                                             onPressed: () async {
                                               setState(() {
