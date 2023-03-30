@@ -14,3 +14,8 @@ class ChangeLectureDetails extends LectureEvent {
 
   ChangeLectureDetails(this.lecture);
 }
+
+class DeleteLecture extends LectureEvent {
+  final LectureModel lecture;
+  DeleteLecture(this.lecture);
+}

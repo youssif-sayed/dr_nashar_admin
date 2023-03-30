@@ -198,16 +198,18 @@ void showToast(String message, ToastGravity toastGravity) {
   if (!isToastShown) {
     isToastShown = true;
     Fluttertoast.showToast(
-            msg: message,
-            toastLength: Toast.LENGTH_LONG,
-            gravity: toastGravity,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.white,
-            textColor: Colors.black,
-            fontSize: 16.0)
-        .then((value) async{
-          await Future.delayed(const Duration(milliseconds:500));
-          isToastShown = false;
-        } );
+      msg: message,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: toastGravity,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.white,
+      textColor: Colors.black,
+      fontSize: 16.0,
+    ).then(
+      (value) async {
+        await Future.delayed(const Duration(milliseconds: 500));
+        isToastShown = false;
+      },
+    );
   }
 }
