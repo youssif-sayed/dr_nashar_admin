@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dr_nashar_admin/components.dart';
 import 'package:dr_nashar_admin/firebase/app/yearsdata.dart';
 import 'package:dr_nashar_admin/screens/app/addAssignmentScreen.dart';
 import 'package:dr_nashar_admin/screens/app/addQuizScreen.dart';
@@ -11,6 +12,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+List copiedLectureData = [];
 
 class AppLectureScreen extends StatefulWidget {
   const AppLectureScreen({Key? key}) : super(key: key);
@@ -20,14 +24,11 @@ class AppLectureScreen extends StatefulWidget {
 }
 
 class _AppLectureScreenState extends State<AppLectureScreen> {
-  bool isLoading = false;
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LectureBloc, LectureState>(
       bloc: BlocProvider.of<LectureBloc>(context)..add(FetchData()),
       builder: (context, state) {
-        print('lecture screen');
         switch (state.status) {
           case LectureStatus.initial:
             return const Scaffold(
@@ -65,143 +66,147 @@ class _AppLectureScreenState extends State<AppLectureScreen> {
                             itemCount: state.lectures.length,
                             itemBuilder: (BuildContext context, int index) {
                               var lecture = state.lectures[index];
-                              return Column(
-                                children: [
-                                  Card(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                              return Card(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          lecture.name,
+                                          maxLines: 3,
+                                          style: const TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                      Row(
                                         children: [
-                                          Expanded(
-                                            child: Text(
-                                              lecture.name,
-                                              maxLines: 3,
-                                              style: const TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold),
-                                              overflow: TextOverflow.ellipsis,
+                                          // Quiz
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      QuizDetailsScreen(
+                                                    lecture: lecture,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                            child: Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 5),
+                                              decoration: BoxDecoration(
+                                                color: Colors.orange,
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                              ),
+                                              child: const Text(
+                                                'Quiz',
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: CupertinoColors
+                                                      .lightBackgroundGray,
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                          Row(
-                                            children: [
-                                              // Quiz
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          QuizDetailsScreen(
-                                                        lecture: lecture,
-                                                      ),
-                                                    ),
-                                                  );
-                                                },
-                                                child: Container(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      horizontal: 10,
-                                                      vertical: 5),
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.orange,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.0),
-                                                  ),
-                                                  child: const Text(
-                                                    'Quiz',
-                                                    style: TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: CupertinoColors
-                                                          .lightBackgroundGray,
-                                                    ),
+                                          // Assignment
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AssignmentDetailsScreen(
+                                                    lecture: lecture,
                                                   ),
                                                 ),
-                                              ),
-                                              // Assignment
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          AssignmentDetailsScreen(
-                                                        lecture: lecture,
-                                                      ),
-                                                    ),
-                                                  );
-                                                },
-                                                child: Container(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
+                                              );
+                                            },
+                                            child: Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
                                                       horizontal: 10,
                                                       vertical: 5),
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.green,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.0),
-                                                  ),
-                                                  child: const Text(
-                                                    'Assignment',
-                                                    style: TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: CupertinoColors
-                                                          .lightBackgroundGray,
-                                                    ),
-                                                  ),
+                                              decoration: BoxDecoration(
+                                                color: Colors.green,
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                              ),
+                                              child: const Text(
+                                                'Assignment',
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: CupertinoColors
+                                                      .lightBackgroundGray,
                                                 ),
                                               ),
-                                              // Code
-
-                                              IconButton(
-                                                onPressed: () async {
-                                                  setState(() {
-                                                    isLoading = true;
-                                                  });
-
-                                                  await FirebaseFirestore
-                                                      .instance
-                                                      .collection(
-                                                          '${YearsData.selectedYear}-lectures')
-                                                      .doc(
-                                                          '${YearsData.selectedSubject}')
-                                                      .collection('lecture')
-                                                      .doc(
-                                                          lecture.id.toString())
-                                                      .delete();
-
-                                                  await FirebaseFirestore
-                                                      .instance
-                                                      .collection('codes')
-                                                      .doc(
-                                                          lecture.id.toString())
-                                                      .delete();
-
-                                                  setState(() {
-                                                    isLoading = false;
-                                                    Navigator.pop(context);
-                                                  });
-                                                },
-                                                icon: const Icon(
-                                                  Icons.delete_rounded,
-                                                  color: Colors.red,
+                                            ),
+                                          ),
+                                          // Code
+                                          PopupMenuButton<String>(
+                                            onSelected: (value) async {
+                                              if (value == 'copy') {
+                                                copiedLectureData.add(
+                                                  {
+                                                    'videos': lecture.videos,
+                                                    'documents':
+                                                        lecture.documents
+                                                  },
+                                                );
+                                                showToast(
+                                                  'Lecture data has been copied',
+                                                  ToastGravity.TOP,
+                                                );
+                                              } else {
+                                                BlocProvider.of<LectureBloc>(
+                                                        context)
+                                                    .add(
+                                                        DeleteLecture(lecture));
+                                              }
+                                            },
+                                            itemBuilder: (context) => [
+                                              PopupMenuItem<String>(
+                                                value: 'copy',
+                                                child: Row(
+                                                  children: const [
+                                                    Icon(
+                                                      Icons.copy,
+                                                      color: Colors.orange,
+                                                    ),
+                                                    SizedBox(width: 8),
+                                                    Text('Copy Data')
+                                                  ],
+                                                ),
+                                              ),
+                                              PopupMenuItem<String>(
+                                                value: 'delete',
+                                                child: Row(
+                                                  children: const [
+                                                    Icon(
+                                                      Icons.delete,
+                                                      color: Colors.red,
+                                                    ),
+                                                    SizedBox(width: 8),
+                                                    Text('Delete')
+                                                  ],
                                                 ),
                                               ),
                                             ],
                                           ),
                                         ],
                                       ),
-                                    ),
+                                    ],
                                   ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                ],
+                                ),
                               );
                             },
                           ),
@@ -232,7 +237,7 @@ class _AppLectureScreenState extends State<AppLectureScreen> {
                       ],
                     ),
                   ),
-                  isLoading
+                  state.isLoading
                       ? Container(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height,
@@ -334,7 +339,6 @@ class _AssignmentDetailsScreenState extends State<AssignmentDetailsScreen> {
                             ),
                           ),
                         );
-                        print(newStepMarks);
                         if (newStepMarks != null) {
                           setState(() {
                             stepsMarks = newStepMarks;
@@ -486,19 +490,23 @@ class _QuizDetailsScreenState extends State<QuizDetailsScreen> {
                                   ),
                                 ),
                               );
-                              print(newStepMarks);
+
                               if (newStepMarks != null) {
-                                setState(() {
-                                  stepsMarks = newStepMarks;
-                                });
-                                BlocProvider.of<LectureBloc>(context).add(
-                                  ChangeLectureDetails(
-                                    widget.lecture.copyWith(
-                                      quiz: quiz!
-                                          .copyWith(stepsMarks: newStepMarks),
-                                    ),
-                                  ),
+                                setState(
+                                  () {
+                                    stepsMarks = newStepMarks;
+                                  },
                                 );
+                                if (mounted) {
+                                  BlocProvider.of<LectureBloc>(context).add(
+                                    ChangeLectureDetails(
+                                      widget.lecture.copyWith(
+                                        quiz: quiz!
+                                            .copyWith(stepsMarks: newStepMarks),
+                                      ),
+                                    ),
+                                  );
+                                }
                               }
                             },
                             icon: const Icon(Icons.edit),
@@ -514,16 +522,15 @@ class _QuizDetailsScreenState extends State<QuizDetailsScreen> {
         backgroundColor: Colors.orange,
         child: const Icon(Icons.add),
         onPressed: () async {
-          var newAssignment = await Navigator.push(
+          var newQuiz = await Navigator.push(
             context,
             MaterialPageRoute(
               builder: ((context) => AddQuizScreen(lecture: widget.lecture)),
             ),
           );
-          if (newAssignment != null) {
+          if (newQuiz != null) {
             setState(() {
-              print(newAssignment);
-              quiz = newAssignment;
+              quiz = newQuiz;
             });
           }
         },

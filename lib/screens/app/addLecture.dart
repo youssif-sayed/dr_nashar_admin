@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'dart:core';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dr_nashar_admin/firebase/app/yearsdata.dart';
+import 'package:dr_nashar_admin/screens/app/lecture_screen/appLectureScreen.dart';
 import 'package:dr_nashar_admin/screens/models/lecture_model.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,11 +21,15 @@ class AppAddLectuerScreen extends StatefulWidget {
 
 class _AppAddLectuerScreenState extends State<AppAddLectuerScreen> {
   double progress = 0.0;
-  FilePickerResult? result, result2, result3;
-  late String lectureName, price;
+  FilePickerResult? image, pickedVideos, pickedDocuments;
+  String lectureName = '', price = '';
   bool isLoading = false;
   int finishedTasks = 0;
   int totalTasks = 0;
+
+  refresh() {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +37,14 @@ class _AppAddLectuerScreenState extends State<AppAddLectuerScreen> {
       body: SafeArea(
         child: Stack(children: [
           Container(
-            padding: EdgeInsets.all(25),
+            padding: const EdgeInsets.all(25),
             child: Center(
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
+                      padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           border: Border.all(color: Colors.blueAccent)),
@@ -47,17 +52,17 @@ class _AppAddLectuerScreenState extends State<AppAddLectuerScreen> {
                         onChanged: (value) {
                           lectureName = value;
                         },
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: InputBorder.none,
                           labelText: "Lectuer Name",
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Container(
-                      padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
+                      padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           border: Border.all(color: Colors.blueAccent)),
@@ -66,27 +71,27 @@ class _AppAddLectuerScreenState extends State<AppAddLectuerScreen> {
                           price = value;
                         },
                         keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: InputBorder.none,
                           labelText: "price",
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
-                    Text(
+                    const Text(
                       'Pick Poster Image:',
                       style: TextStyle(fontSize: 20),
                     ),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     Container(
-                      padding: EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(15),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
                         color: Colors.blueAccent,
                       ),
-                      child: result == null
+                      child: image == null
                           ? IconButton(
                               color: Colors.white,
                               iconSize: 40,
@@ -95,11 +100,11 @@ class _AppAddLectuerScreenState extends State<AppAddLectuerScreen> {
                                     .pickFiles(
                                         type: FileType.image, withData: true);
                                 setState(() {
-                                  result = pickedfile;
+                                  image = pickedfile;
                                   totalTasks++;
                                 });
                               },
-                              icon: Icon(Icons.image_rounded),
+                              icon: const Icon(Icons.image_rounded),
                             )
                           : Container(
                               decoration: BoxDecoration(
@@ -111,171 +116,215 @@ class _AppAddLectuerScreenState extends State<AppAddLectuerScreen> {
                                   IconButton(
                                     onPressed: () {
                                       setState(() {
-                                        result = null;
+                                        image = null;
                                         totalTasks--;
                                       });
                                     },
-                                    icon: Icon(Icons.cancel_rounded),
+                                    icon: const Icon(Icons.cancel_rounded),
                                     color: Colors.blueAccent,
                                   ),
                                   Expanded(
                                       child: Text(
-                                    '${result?.files.first.name}',
-                                    style: TextStyle(color: Colors.blueAccent),
+                                    '${image?.files.first.name}',
+                                    style: const TextStyle(
+                                        color: Colors.blueAccent),
                                     maxLines: 10,
                                   )),
                                 ],
                               ),
                             ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
-                    Text(
-                      'Pick Lecture Videos:',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    SizedBox(height: 5),
-                    Container(
-                      padding: EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: Colors.deepPurpleAccent,
-                      ),
-                      child: result2 == null
-                          ? IconButton(
-                              color: Colors.white,
-                              iconSize: 40,
-                              onPressed: () async {
-                                final pickedfile = await FilePicker.platform
-                                    .pickFiles(
-                                        type: FileType.video,
-                                        withData: true,
-                                        allowMultiple: true);
-                                setState(() {
-                                  result2 = pickedfile;
-                                  totalTasks =
-                                      totalTasks + result2!.files.length;
-                                });
-                              },
-                              icon: Icon(Icons.video_camera_back_rounded),
-                            )
-                          : Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(50),
+                    (copiedLectureData.any(
+                                (element) => element['videos'].isNotEmpty) ||
+                            copiedLectureData.any(
+                                (element) => element['documents'].isNotEmpty))
+                        ? Column(
+                            children: [
+                              CopiedDataList(refresh),
+                              MaterialButton(
+                                color: Colors.red,
+                                onPressed: () {
+                                  setState(() {
+                                    copiedLectureData = [];
+                                  });
+                                },
+                                child: const Text(
+                                  'Delete All',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              )
+                            ],
+                          )
+                        : Column(
+                            children: [
+                              const Text(
+                                'Pick Lecture Videos:',
+                                style: TextStyle(fontSize: 20),
                               ),
-                              child: Row(
-                                children: [
-                                  IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        totalTasks =
-                                            totalTasks - result2!.files.length;
-                                        result2 = null;
-                                      });
-                                    },
-                                    icon: Icon(Icons.cancel_rounded),
-                                    color: Colors.deepPurpleAccent,
-                                  ),
-                                  Expanded(
-                                      child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      for (int i = 0;
-                                          i < result2!.files.length;
-                                          i++)
-                                        Text(
-                                          '${result2?.files.elementAt(i).name}',
-                                          style: TextStyle(
-                                              color: Colors.deepPurpleAccent),
-                                          maxLines: 10,
+                              const SizedBox(height: 5),
+                              Container(
+                                padding: const EdgeInsets.all(15),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100),
+                                  color: Colors.deepPurpleAccent,
+                                ),
+                                child: pickedVideos == null
+                                    ? IconButton(
+                                        color: Colors.white,
+                                        iconSize: 40,
+                                        onPressed: () async {
+                                          final pickedfile = await FilePicker
+                                              .platform
+                                              .pickFiles(
+                                            type: FileType.video,
+                                            withData: true,
+                                            allowMultiple: true,
+                                          );
+                                          setState(() {
+                                            pickedVideos = pickedfile;
+                                            totalTasks = totalTasks +
+                                                pickedVideos!.files.length;
+                                          });
+                                        },
+                                        icon: const Icon(
+                                            Icons.video_camera_back_rounded),
+                                      )
+                                    : Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(50),
                                         ),
-                                    ],
-                                  )),
-                                ],
-                              ),
-                            ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      'Pick Lecture Documents:',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    SizedBox(height: 5),
-                    Container(
-                      padding: EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: Colors.cyan,
-                      ),
-                      child: result3 == null
-                          ? IconButton(
-                              color: Colors.white,
-                              iconSize: 40,
-                              onPressed: () async {
-                                final pickedfile = await FilePicker.platform
-                                    .pickFiles(
-                                        type: FileType.any,
-                                        withData: true,
-                                        allowMultiple: true);
-                                setState(() {
-                                  result3 = pickedfile;
-                                  totalTasks =
-                                      totalTasks + result3!.files.length;
-                                });
-                              },
-                              icon: Icon(Icons.description_rounded),
-                            )
-                          : Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                              child: Row(
-                                children: [
-                                  IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        totalTasks =
-                                            totalTasks - result2!.files.length;
-                                        result3 = null;
-                                      });
-                                    },
-                                    icon: Icon(Icons.cancel_rounded),
-                                    color: Colors.cyan,
-                                  ),
-                                  Expanded(
-                                      child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      for (int i = 0;
-                                          i < result3!.files.length;
-                                          i++)
-                                        Text(
-                                          '${result3?.files.elementAt(i).name}',
-                                          style: TextStyle(color: Colors.cyan),
-                                          maxLines: 10,
+                                        child: Row(
+                                          children: [
+                                            IconButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  totalTasks = totalTasks -
+                                                      pickedVideos!
+                                                          .files.length;
+                                                  pickedVideos = null;
+                                                });
+                                              },
+                                              icon: const Icon(
+                                                  Icons.cancel_rounded),
+                                              color: Colors.deepPurpleAccent,
+                                            ),
+                                            Expanded(
+                                                child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                for (int i = 0;
+                                                    i <
+                                                        pickedVideos!
+                                                            .files.length;
+                                                    i++)
+                                                  Text(
+                                                    '${pickedVideos?.files.elementAt(i).name}',
+                                                    style: const TextStyle(
+                                                        color: Colors
+                                                            .deepPurpleAccent),
+                                                    maxLines: 10,
+                                                  ),
+                                              ],
+                                            )),
+                                          ],
                                         ),
-                                    ],
-                                  )),
-                                ],
+                                      ),
                               ),
-                            ),
-                    ),
-                    SizedBox(
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              const Text(
+                                'Pick Lecture Documents:',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              const SizedBox(height: 5),
+                              Container(
+                                padding: const EdgeInsets.all(15),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100),
+                                  color: Colors.cyan,
+                                ),
+                                child: pickedDocuments == null
+                                    ? IconButton(
+                                        color: Colors.white,
+                                        iconSize: 40,
+                                        onPressed: () async {
+                                          final pickedfile = await FilePicker
+                                              .platform
+                                              .pickFiles(
+                                                  type: FileType.any,
+                                                  withData: true,
+                                                  allowMultiple: true);
+                                          setState(() {
+                                            pickedDocuments = pickedfile;
+                                            totalTasks = totalTasks +
+                                                pickedDocuments!.files.length;
+                                          });
+                                        },
+                                        icon: const Icon(
+                                            Icons.description_rounded),
+                                      )
+                                    : Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            IconButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  totalTasks = totalTasks -
+                                                      pickedVideos!
+                                                          .files.length;
+                                                  pickedDocuments = null;
+                                                });
+                                              },
+                                              icon: const Icon(
+                                                  Icons.cancel_rounded),
+                                              color: Colors.cyan,
+                                            ),
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  for (int i = 0;
+                                                      i <
+                                                          pickedDocuments!
+                                                              .files.length;
+                                                      i++)
+                                                    Text(
+                                                      '${pickedDocuments?.files.elementAt(i).name}',
+                                                      style: const TextStyle(
+                                                          color: Colors.cyan),
+                                                      maxLines: 10,
+                                                    ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                              ),
+                            ],
+                          ),
+                    const SizedBox(
                       height: 20.0,
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blueAccent,
-                        textStyle: TextStyle(fontSize: 30),
-                        padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 100),
+                        textStyle: const TextStyle(fontSize: 30),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 100),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0),
                         ),
@@ -283,21 +332,36 @@ class _AppAddLectuerScreenState extends State<AppAddLectuerScreen> {
                       onPressed: () async {
                         if (lectureName != '' &&
                             price != '' &&
-                            result != null &&
-                            result2 != null &&
-                            result3 != null) {
+                            image != null &&
+                            pickedVideos != null &&
+                            pickedDocuments != null) {
                           setState(() {
                             isLoading = true;
                           });
-                          await pick_file(result, result2, result3);
+                          await uploadLecture(
+                              image, pickedVideos, pickedDocuments);
                           Navigator.of(context).pop();
-                        } else {}
+                        } else {
+                          if (lectureName != '' &&
+                              price != '' &&
+                              image != null &&
+                              copiedLectureData.isNotEmpty) {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            await uploadLecture(
+                                image, pickedVideos, pickedDocuments);
+                            if (mounted) {
+                              Navigator.of(context).pop();
+                            }
+                          }
+                        }
                       },
-                      child: Text(
+                      child: const Text(
                         'submit',
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                   ],
@@ -309,17 +373,17 @@ class _AppAddLectuerScreenState extends State<AppAddLectuerScreen> {
               ? Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
-                  color: Color(0x80000000),
+                  color: const Color(0x80000000),
                   child: Center(
-                      child: Container(
+                      child: SizedBox(
                     height: 100.0,
                     width: finishedTasks == totalTasks ? double.infinity : 100,
                     child: AnimatedSwitcher(
-                      duration: Duration(milliseconds: 375),
+                      duration: const Duration(milliseconds: 375),
                       child: finishedTasks == totalTasks
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
+                              children: const [
                                 Icon(
                                   Icons.check_rounded,
                                   color: Colors.green,
@@ -327,8 +391,10 @@ class _AppAddLectuerScreenState extends State<AppAddLectuerScreen> {
                                 SizedBox(
                                   width: 5.0,
                                 ),
-                                Text('Upload Complete',
-                                    style: TextStyle(color: Colors.green)),
+                                Text(
+                                  'Upload Complete',
+                                  style: TextStyle(color: Colors.green),
+                                ),
                               ],
                             )
                           : const Center(
@@ -343,39 +409,40 @@ class _AppAddLectuerScreenState extends State<AppAddLectuerScreen> {
     );
   }
 
-  Future<void> pick_file(var result, var result2, var result3) async {
-    if (result != null && result2 != null && result3 != null) {
-      Uint8List? file = result.files.first.bytes;
+  Future<void> uploadLecture(
+      var image, var pickedVideos, var pickedDocuments) async {
+    if (image != null && pickedVideos != null && pickedDocuments != null) {
+      Uint8List? file = image.files.first.bytes;
 
       String fileName =
-          "app/lectures/${YearsData.selectedYear}/${YearsData.selectedSubject}/picture/${result.files.first.name}";
+          "app/lectures/${YearsData.selectedYear}/${YearsData.selectedSubject}/picture/${image.files.first.name}";
       final imgRef = FirebaseStorage.instance.ref().child(fileName);
       print('uploading image');
 
       await imgRef.putData(
           file!,
           SettableMetadata(
-              contentType: 'image/${result.files.first.extension}'));
+              contentType: 'image/${image.files.first.extension}'));
       final imgURL = await imgRef.getDownloadURL();
-
 
       List<Video> videos = [];
 
-      for (int i = 0; i < result2.files.length; i++) {
+      for (int i = 0; i < pickedVideos.files.length; i++) {
         print('uploading video $i');
         String videoName =
-            'app/lectures/${YearsData.selectedYear}/${YearsData.selectedSubject}/videos/${result2.files.elementAt(i).name}';
-        Uint8List? videoFile = result2.files.elementAt(i).bytes;
+            'app/lectures/${YearsData.selectedYear}/${YearsData.selectedSubject}/videos/${pickedVideos.files.elementAt(i).name}';
+        Uint8List? videoFile = pickedVideos.files.elementAt(i).bytes;
         final videoRef = FirebaseStorage.instance.ref().child(videoName);
         await videoRef.putData(
             videoFile!,
             SettableMetadata(
-                contentType: 'video/${result2.files.elementAt(i).extension}'));
+                contentType:
+                    'video/${pickedVideos.files.elementAt(i).extension}'));
         final videoURL = await videoRef.getDownloadURL();
-        String name = result2.files
+        String name = pickedVideos.files
             .elementAt(i)
             .name
-            .substring(0, result2.files.elementAt(i).name.indexOf('.'));
+            .substring(0, pickedVideos.files.elementAt(i).name.indexOf('.'));
         videos.add(Video(name: name, url: videoURL));
         setState(() {
           finishedTasks++;
@@ -383,19 +450,19 @@ class _AppAddLectuerScreenState extends State<AppAddLectuerScreen> {
         print('$i video uploaded');
       }
       List<Document> documents = [];
-      for (int i = 0; i < result3?.files.length; i++) {
+      for (int i = 0; i < pickedDocuments?.files.length; i++) {
         print('uploading doc $i');
         String docName =
-            "app/lectures/${YearsData.selectedYear}/${YearsData.selectedSubject}/docs/${result3.files.elementAt(i).name}";
-        Uint8List? docFile = result3.files.elementAt(i).bytes;
+            "app/lectures/${YearsData.selectedYear}/${YearsData.selectedSubject}/docs/${pickedDocuments.files.elementAt(i).name}";
+        Uint8List? docFile = pickedDocuments.files.elementAt(i).bytes;
         final docRef = FirebaseStorage.instance.ref().child(docName);
         await docRef.putData(
             docFile!,
             SettableMetadata(
                 contentType:
-                    'application/${result3.files.elementAt(i).extension}'));
+                    'application/${pickedDocuments.files.elementAt(i).extension}'));
         final docURL = await docRef.getDownloadURL();
-        String name = result3.files.elementAt(i).name;
+        String name = pickedDocuments.files.elementAt(i).name;
         documents.add(Document(name: name, src: docURL));
         setState(() {
           finishedTasks++;
@@ -419,13 +486,153 @@ class _AppAddLectuerScreenState extends State<AppAddLectuerScreen> {
           .doc(lectureId)
           .set(lecture.toJson());
 
-      FirebaseFirestore.instance
-          .collection('codes')
-          .doc(lectureId)
-          .set({
+      FirebaseFirestore.instance.collection('codes').doc(lectureId).set({
         'AS-2023': {'UID': '', 'used': false, 'expireDate': 1}
       });
       print('firestore created');
+    } else if (image != null && copiedLectureData.isNotEmpty) {
+      Uint8List? file = image.files.first.bytes;
+
+      String fileName =
+          "app/lectures/${YearsData.selectedYear}/${YearsData.selectedSubject}/picture/${image.files.first.name}";
+      final imgRef = FirebaseStorage.instance.ref().child(fileName);
+      print('uploading image');
+
+      await imgRef.putData(
+          file!,
+          SettableMetadata(
+              contentType: 'image/${image.files.first.extension}'));
+      final imgURL = await imgRef.getDownloadURL();
+
+      List<Video> videos = [];
+      List<Document> documents = [];
+
+      if (copiedLectureData.isNotEmpty) {
+        for (var data in copiedLectureData) {
+          videos.addAll(data['videos']);
+          documents.addAll(data['documents']);
+        }
+      }
+      var lectureId = Random().nextInt(100000000).toString();
+
+      var lecture = LectureModel(
+        image: imgURL,
+        documents: documents,
+        videos: videos,
+        name: lectureName,
+        price: double.parse(price),
+        id: lectureId,
+      );
+
+      FirebaseFirestore.instance
+          .collection('${YearsData.selectedYear}-lectures')
+          .doc('${YearsData.selectedSubject}')
+          .collection('lectures')
+          .doc(lectureId)
+          .set(lecture.toJson());
+
+      FirebaseFirestore.instance.collection('codes').doc(lectureId).set(
+        {
+          'AS-2023': {'UID': '', 'used': false, 'expireDate': 1}
+        },
+      );
+      copiedLectureData = [];
     }
+  }
+}
+
+class CopiedDataList extends StatefulWidget {
+  const CopiedDataList(
+    this.refreshParent, {
+    super.key,
+  });
+  final Function refreshParent;
+  @override
+  State<CopiedDataList> createState() => _CopiedDataListState();
+}
+
+class _CopiedDataListState extends State<CopiedDataList> {
+  refreshParent() {
+    if (copiedLectureData.every((element) => element['videos'].isEmpty) &&
+        copiedLectureData.every((element) => element['documents'].isEmpty)) {
+      copiedLectureData = [];
+      widget.refreshParent();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: copiedLectureData.length,
+      itemBuilder: (context, lectureIndex) {
+        var lecture = copiedLectureData[lectureIndex];
+        return Column(
+          children: [
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: lecture['videos'].length,
+              itemBuilder: (context, index) {
+                Video video = lecture['videos'][index];
+                return ListTile(
+                  leading: const Icon(Icons.play_circle_outline_rounded),
+                  title: Text(video.name),
+                  trailing: IconButton(
+                    onPressed: () {
+                      setState(
+                        () {
+                          List<Video> reducedVideoList = [];
+                          reducedVideoList.addAll(lecture['videos']);
+                          reducedVideoList.remove(video);
+                          copiedLectureData[lectureIndex]['videos'] =
+                              reducedVideoList;
+                        },
+                      );
+                      refreshParent();
+                    },
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                    ),
+                  ),
+                );
+              },
+            ),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: lecture['documents'].length,
+              itemBuilder: (context, index) {
+                Document document = lecture['documents'][index];
+                return ListTile(
+                  leading: const Icon(Icons.file_present_sharp),
+                  title: Text(document.name),
+                  trailing: IconButton(
+                    onPressed: () {
+                      setState(
+                        () {
+                          List<Document> reducedDocumentsList = [];
+                          reducedDocumentsList.addAll(lecture['documents']);
+                          reducedDocumentsList.remove(document);
+                          copiedLectureData[lectureIndex]['documents'] =
+                              reducedDocumentsList;
+                        },
+                      );
+                      refreshParent();
+                    },
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                    ),
+                  ),
+                );
+              },
+            )
+          ],
+        );
+      },
+    );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../firebase/app/yearsdata.dart';
@@ -6,15 +7,18 @@ import 'lecture_state.dart';
 
 class LectureBloc extends Bloc<LectureEvent, LectureState> {
   LectureBloc() : super(const LectureState(status: LectureStatus.initial)) {
+    final firestoreInstance = FirebaseFirestore.instance;
+
     on<FetchData>(
       (event, emit) async {
+        emit(state.copyWith(status: LectureStatus.initial));
         try {
           var lectures = await YearsData.get_subject_data();
           emit(
-            LectureState(lectures: lectures, status: LectureStatus.success),
+            state.copyWith(lectures: lectures, status: LectureStatus.success),
           );
         } catch (e) {
-          emit(const LectureState(status: LectureStatus.failure));
+          emit(state.copyWith(status: LectureStatus.failure));
         }
       },
     );
@@ -30,6 +34,27 @@ class LectureBloc extends Bloc<LectureEvent, LectureState> {
 
         emit(state.copyWith(
             lectures: state.lectures, status: LectureStatus.success));
+      },
+    );
+
+    on<DeleteLecture>(
+      (event, emit) async {
+        emit(state.copyWith(isLoading: true));
+        await firestoreInstance
+            .collection('${YearsData.selectedYear}-lectures')
+            .doc('${YearsData.selectedSubject}')
+            .collection('lectures')
+            .doc(event.lecture.id.toString())
+            .delete();
+
+        await firestoreInstance
+            .collection('codes')
+            .doc(event.lecture.id.toString())
+            .delete();
+
+        state.lectures.remove(event.lecture);
+
+        emit(state.copyWith(lectures: state.lectures, isLoading: false));
       },
     );
   }

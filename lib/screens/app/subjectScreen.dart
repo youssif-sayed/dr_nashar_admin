@@ -19,9 +19,10 @@ class AppSubjectScreen extends StatefulWidget {
 }
 
 class _AppSubjectScreenState extends State<AppSubjectScreen> {
-  @override
   var selectedYear = 'sec1';
   var fetchedyear;
+
+  @override
   Widget build(BuildContext context) {
     switch (selectedYear) {
       case 'sec1':
@@ -64,14 +65,15 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
         title: Container(
           height: 50,
           child: Hero(
-              tag: 'logo',
-              child: Image.asset(
-                'images/Icons/appIcon.png',
-              )),
+            tag: 'logo',
+            child: Image.asset(
+              'images/Icons/appIcon.png',
+            ),
+          ),
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(12),
+        padding: const EdgeInsets.all(12),
         child: SafeArea(
           child: SingleChildScrollView(
             child: Column(
@@ -80,7 +82,7 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
-                    gradient: LinearGradient(
+                    gradient: const LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
@@ -90,7 +92,7 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 24,
                 ),
                 SingleChildScrollView(
@@ -104,7 +106,14 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                           });
                         },
                         child: Container(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: selectedYear == 'sec1' ? Colors.black : null,
+                            borderRadius: BorderRadius.circular(50),
+                            border: selectedYear == 'sec1'
+                                ? null
+                                : Border.all(width: 1),
+                          ),
                           child: Text(
                             '1st sec',
                             style: TextStyle(
@@ -112,16 +121,9 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                                     ? Colors.white
                                     : Colors.black),
                           ),
-                          decoration: BoxDecoration(
-                              color:
-                                  selectedYear == 'sec1' ? Colors.black : null,
-                              borderRadius: BorderRadius.circular(50),
-                              border: selectedYear == 'sec1'
-                                  ? null
-                                  : Border.all(width: 1)),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 8,
                       ),
                       InkWell(
@@ -131,7 +133,7 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                           });
                         },
                         child: Container(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: Text(
                             '2nd sec',
                             style: TextStyle(
@@ -148,7 +150,7 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                                   : Border.all(width: 1)),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 8,
                       ),
                       InkWell(
@@ -158,7 +160,7 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                           });
                         },
                         child: Container(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: Text(
                             '3rd sec',
                             style: TextStyle(
@@ -175,7 +177,7 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                                   : Border.all(width: 1)),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 8,
                       ),
                       InkWell(
@@ -185,7 +187,7 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                           });
                         },
                         child: Container(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: Text(
                             '1st prep',
                             style: TextStyle(
@@ -202,7 +204,7 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                                   : Border.all(width: 1)),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 8,
                       ),
                       InkWell(
@@ -212,7 +214,7 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                           });
                         },
                         child: Container(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: Text(
                             '2nd prep',
                             style: TextStyle(
@@ -229,7 +231,7 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                                   : Border.all(width: 1)),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 8,
                       ),
                       InkWell(
@@ -239,7 +241,7 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                           });
                         },
                         child: Container(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: Text(
                             '3rd prep',
                             style: TextStyle(
@@ -256,7 +258,7 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                                   : Border.all(width: 1)),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 8,
                       ),
                     ],
@@ -264,7 +266,7 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                 ),
                 ListView.builder(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: fetchedyear.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Subject(index);
@@ -280,7 +282,7 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
   Widget Subject(int index) {
     return Column(
       children: [
-        SizedBox(
+        const SizedBox(
           height: 24,
         ),
         Stack(
@@ -288,7 +290,7 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
             Container(
               clipBehavior: Clip.hardEdge,
               decoration: BoxDecoration(
-                  color: Color(0xfff1f1f1),
+                  color: const Color(0xfff1f1f1),
                   borderRadius: BorderRadius.circular(18)),
               child: Column(
                 children: [
@@ -308,13 +310,13 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                     ),
                   ]),
                   Container(
-                    padding: EdgeInsets.all(15),
+                    padding: const EdgeInsets.all(15),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           '${fetchedyear[index]['name']}',
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 25, fontWeight: FontWeight.bold),
                         ),
                         InkWell(
@@ -327,16 +329,16 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(18),
                                 border: Border.all(width: 2)),
-                            padding: EdgeInsets.all(15),
+                            padding: const EdgeInsets.all(15),
                             child: Row(
                               children: [
-                                Text(
+                                const Text(
                                   'Start',
                                   style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                Icon(Icons.arrow_forward_ios_rounded),
+                                const Icon(Icons.arrow_forward_ios_rounded),
                               ],
                             ),
                           ),
@@ -358,12 +360,12 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                   child: BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
                     child: Container(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                           color: Colors.grey.shade200.withOpacity(0.5)),
                       child: Text(
                         '${fetchedyear[index]['term']}',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
