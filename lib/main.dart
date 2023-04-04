@@ -3,6 +3,7 @@ import 'package:dr_nashar_admin/screens/app/lecture_screen/appLectureScreen.dart
 import 'package:dr_nashar_admin/screens/app/appScreen.dart';
 import 'package:dr_nashar_admin/screens/app/attendanceScreen.dart';
 import 'package:dr_nashar_admin/screens/app/lectureCodesScreen.dart';
+import 'package:dr_nashar_admin/screens/app/new_notification_screen.dart';
 import 'package:dr_nashar_admin/screens/app/students_data_screen.dart';
 import 'package:dr_nashar_admin/screens/app/subjectScreen.dart';
 import 'package:dr_nashar_admin/screens/web/AddImageScreen.dart';
@@ -67,6 +68,8 @@ class MyApp extends StatelessWidget {
         'AttendanceScreen': (context) => const AttendanceScreen(),
         // 'AddQuizScreen': (context) => AddQuizScreen(),
         'StudentsDataScreen': (context) => const StudentsDataScreen(),
+        NewNotificationScreen.routeName: (context) =>
+            const NewNotificationScreen(),
       },
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
