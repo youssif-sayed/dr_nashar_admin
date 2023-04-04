@@ -12,13 +12,14 @@ class TopStudentListScreen extends StatefulWidget {
 
 class _TopStudentListScreenState extends State<TopStudentListScreen> {
   @override
-  bool isLoading=false;
+  bool isLoading = false;
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
       body: SafeArea(
-        child: Stack(
-          children: [Container(
+        child: Stack(children: [
+          Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -26,42 +27,43 @@ class _TopStudentListScreenState extends State<TopStudentListScreen> {
                   child: ListView.builder(
                       itemCount: FireWeb.topStudentData?.keys.length,
                       itemBuilder: (BuildContext context, int index) {
-
                         return Column(
                           children: [
                             Card(
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                          child: Text(
-                                            '${FireWeb.topStudentData?.values.elementAt(index)['name']}',
-                                            maxLines: 3,
-                                            style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
-                                          )),
-                                      IconButton(
-                                        onPressed: () async{
-                                          setState(() {
-                                            isLoading=true;
-                                          });
-                                          await FireWeb.delete_topStudent(index);
-                                          await FireWeb.getTopStudent();
-                                          setState(() {
-                                             isLoading=false;
-                                          });
-
-                                        },
-                                        icon: Icon(
-                                          Icons.delete_rounded,
-                                          color: Colors.red,
-                                        ),
-                                      ),
-                                    ],
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                      child: Text(
+                                    '${FireWeb.topStudentData?.values.elementAt(index)['name']}',
+                                    maxLines: 3,
+                                    style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                                  IconButton(
+                                    onPressed: () async {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+                                      await FireWeb.delete_topStudent(index);
+                                      await FireWeb.getTopStudent();
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                    },
+                                    icon: const Icon(
+                                      Icons.delete_rounded,
+                                      color: Colors.red,
+                                    ),
                                   ),
-                                )),
-                            SizedBox(
+                                ],
+                              ),
+                            )),
+                            const SizedBox(
                               height: 10,
                             ),
                           ],
@@ -72,12 +74,13 @@ class _TopStudentListScreenState extends State<TopStudentListScreen> {
                   onPressed: () {
                     Navigator.pushNamed(context, 'AddTopStudentScreen');
                   },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                  style:
+                      ElevatedButton.styleFrom(backgroundColor: Colors.green),
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: const [
                         Icon(
                           Icons.add_rounded,
                           size: 30,
@@ -93,14 +96,17 @@ class _TopStudentListScreenState extends State<TopStudentListScreen> {
               ],
             ),
           ),
-            isLoading?Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              color: Color(0x80000000),
-              child: Center(child: CircularProgressIndicator(),),
-            ):Container(),
-          ]
-        ),
+          isLoading
+              ? Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  color: const Color(0x80000000),
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              : Container(),
+        ]),
       ),
     );
   }

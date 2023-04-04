@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class IntroScreen extends StatelessWidget {
@@ -9,7 +8,7 @@ class IntroScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Container(
-          child: Image(
+          child: const Image(
             image: AssetImage(
               'images/Icons/appIcon.png',
             ),
@@ -23,22 +22,20 @@ class IntroScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Center(
         child: Column(
-
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             MaterialButton(
-              onPressed: (){
+              onPressed: () {
                 Navigator.pushNamed(context, 'WebSiteScreen');
               },
               child: Container(
-
                 height: MediaQuery.of(context).size.height * 0.4,
                 width: MediaQuery.of(context).size.width * 0.9,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   gradient: const LinearGradient(
-                    colors: [Colors.purpleAccent,Colors.blueAccent],
+                    colors: [Colors.purpleAccent, Colors.blueAccent],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -46,21 +43,34 @@ class IntroScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(height: 20,),
-                    Icon(Icons.web_rounded,color: Colors.white,size: 100,),
-                    Text('Web Site',style: TextStyle(fontSize: 30,color: Colors.white,fontWeight: FontWeight.bold),),
+                  children: const [
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Icon(
+                      Icons.web_rounded,
+                      color: Colors.white,
+                      size: 100,
+                    ),
+                    Text(
+                      'Web Site',
+                      style: TextStyle(
+                          fontSize: 30,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ],
                 ),
               ),
             ),
-            SizedBox(height: 5,),
+            const SizedBox(
+              height: 5,
+            ),
             MaterialButton(
-              onPressed: (){
+              onPressed: () {
                 Navigator.of(context).pushNamed('AppScreen');
               },
               child: Container(
-
                 height: MediaQuery.of(context).size.height * 0.4,
                 width: MediaQuery.of(context).size.width * 0.9,
                 decoration: BoxDecoration(
@@ -74,10 +84,22 @@ class IntroScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(height: 20,),
-                    Icon(Icons.phone_iphone_rounded,color: Colors.white,size: 100,),
-                    Text('Mobile App',style: TextStyle(fontSize: 30,color: Colors.white,fontWeight: FontWeight.bold),),
+                  children: const [
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Icon(
+                      Icons.phone_iphone_rounded,
+                      color: Colors.white,
+                      size: 100,
+                    ),
+                    Text(
+                      'Mobile App',
+                      style: TextStyle(
+                          fontSize: 30,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ],
                 ),
               ),
@@ -88,5 +110,3 @@ class IntroScreen extends StatelessWidget {
     );
   }
 }
-
-

@@ -1,9 +1,5 @@
-import 'dart:math';
-
 import 'package:dr_nashar_admin/screens/models/question_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../../constants/appBar.dart';
 
@@ -22,7 +18,7 @@ class _EditQuestionScreenState extends State<EditQuestionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
-      body: Text("EDIT"),
+      body: const Text("EDIT"),
       // body: SingleChildScrollView(
       //   child: Padding(
       //     padding: const EdgeInsets.all(15.0),

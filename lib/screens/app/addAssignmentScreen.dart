@@ -28,7 +28,9 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
   @override
   Widget build(BuildContext context) {
     int totalMarks = 0;
-    questions.forEach((question) => totalMarks += question.mark);
+    for (var question in questions) {
+      totalMarks += question.mark;
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Image(

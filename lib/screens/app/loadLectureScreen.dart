@@ -7,9 +7,6 @@
 
 // import '../../firebase/app/yearsdata.dart';
 
-
-
-
 // class AppLoadLectureScreen extends StatefulWidget {
 //   const AppLoadLectureScreen({Key? key}) : super(key: key);
 
@@ -25,14 +22,9 @@
 //   }
 //   Future<void> loadData() async {
 
-
 //     bool issubject = await YearsData.get_subject_data();
 //     if (issubject)
 //       Navigator.of(context).pushReplacementNamed('AppLectureScreen');
-
-
-
-
 
 //   }
 //   @override

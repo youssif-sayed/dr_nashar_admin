@@ -278,8 +278,8 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                       );
                     }
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
+                  child: const Padding(
+                    padding: EdgeInsets.all(10.0),
                     child: Text(
                       'Add question',
                       style: TextStyle(fontSize: 20.0),

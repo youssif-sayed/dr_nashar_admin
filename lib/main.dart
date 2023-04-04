@@ -1,11 +1,9 @@
 import 'package:dr_nashar_admin/screens/app/addLecture.dart';
-import 'package:dr_nashar_admin/screens/app/addQuestion.dart';
-import 'package:dr_nashar_admin/screens/app/addQuizScreen.dart';
 import 'package:dr_nashar_admin/screens/app/lecture_screen/appLectureScreen.dart';
 import 'package:dr_nashar_admin/screens/app/appScreen.dart';
 import 'package:dr_nashar_admin/screens/app/attendanceScreen.dart';
 import 'package:dr_nashar_admin/screens/app/lectureCodesScreen.dart';
-import 'package:dr_nashar_admin/screens/app/loadLectureScreen.dart';
+import 'package:dr_nashar_admin/screens/app/new_notification_screen.dart';
 import 'package:dr_nashar_admin/screens/app/students_data_screen.dart';
 import 'package:dr_nashar_admin/screens/app/subjectScreen.dart';
 import 'package:dr_nashar_admin/screens/web/AddImageScreen.dart';
@@ -45,34 +43,36 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: IntroScreen(),
+      home: const IntroScreen(),
       routes: {
-        'Intro': (context) => IntroScreen(),
-        'WebSiteScreen': (context) => WebSiteScreen(),
-        'LectuerScreen': (context) => LectuerScreen(),
-        'SubjectScreen': (context) => SubjectScreen(),
-        'AddLecture': (context) => AddLectuer(),
-        'MathAndEnglishScreen': (context) => MathAndEnglishScreen(),
-        'AddMELectureScreen': (context) => AddMELectuer(),
-        'TopStudentsScreen': (context) => TopStudentsScreen(),
-        'TopStudentListScreen': (context) => TopStudentListScreen(),
-        'AddTopStudentScreen': (context) => AddTopStudentScreen(),
-        'ImagesScreen': (context) => ImagesScreen(),
-        'AddNewsScreen': (context) => ADDNewsScreen(),
-        'AddImageScreen': (context) => ADDImageScreen(),
-        'NewsScreen': (context) => NewsScreen(),
-        'AppScreen': (context) => AppScreen(),
-        'AppSubjectScreen': (context) => AppSubjectScreen(),
+        'Intro': (context) => const IntroScreen(),
+        'WebSiteScreen': (context) => const WebSiteScreen(),
+        'LectuerScreen': (context) => const LectuerScreen(),
+        'SubjectScreen': (context) => const SubjectScreen(),
+        'AddLecture': (context) => const AddLectuer(),
+        'MathAndEnglishScreen': (context) => const MathAndEnglishScreen(),
+        'AddMELectureScreen': (context) => const AddMELectuer(),
+        'TopStudentsScreen': (context) => const TopStudentsScreen(),
+        'TopStudentListScreen': (context) => const TopStudentListScreen(),
+        'AddTopStudentScreen': (context) => const AddTopStudentScreen(),
+        'ImagesScreen': (context) => const ImagesScreen(),
+        'AddNewsScreen': (context) => const ADDNewsScreen(),
+        'AddImageScreen': (context) => const ADDImageScreen(),
+        'NewsScreen': (context) => const NewsScreen(),
+        'AppScreen': (context) => const AppScreen(),
+        'AppSubjectScreen': (context) => const AppSubjectScreen(),
         // 'AppLoadingLectureScreen':(context)=>AppLoadLectureScreen(),
-        'AppLectureScreen': (context) => AppLectureScreen(),
-        'AppLectureCodesScreen': (context) => AppLectureCodeScreen(),
-        'AppAddLectureScreen': (context) => AppAddLectuerScreen(),
-        'AttendanceScreen': (context) => AttendanceScreen(),
+        'AppLectureScreen': (context) => const AppLectureScreen(),
+        'AppLectureCodesScreen': (context) => const AppLectureCodeScreen(),
+        'AppAddLectureScreen': (context) => const AppAddLectuerScreen(),
+        'AttendanceScreen': (context) => const AttendanceScreen(),
         // 'AddQuizScreen': (context) => AddQuizScreen(),
-        'StudentsDataScreen': (context) => StudentsDataScreen(),
+        'StudentsDataScreen': (context) => const StudentsDataScreen(),
+        NewNotificationScreen.routeName: (context) =>
+            const NewNotificationScreen(),
       },
       theme: ThemeData(
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           iconTheme: IconThemeData(color: Colors.blueAccent),
         ),
       ),

@@ -1,10 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-
 
 import '../../firebase/web/fireweb.dart';
 
@@ -26,14 +24,14 @@ class _AddMELectuerState extends State<AddMELectuer> {
     return Scaffold(
       body: Stack(children: [
         Container(
-          padding: EdgeInsets.all(25),
+          padding: const EdgeInsets.all(25),
           child: Center(
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
+                    padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         border: Border.all(color: Colors.blueAccent)),
@@ -41,22 +39,22 @@ class _AddMELectuerState extends State<AddMELectuer> {
                       onChanged: (value) {
                         lectureName = value;
                       },
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: InputBorder.none,
                         labelText: "Lectuer Name",
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  Text(
+                  const Text(
                     'Pick English Video:',
                     style: TextStyle(fontSize: 20),
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Container(
-                    padding: EdgeInsets.all(15),
+                    padding: const EdgeInsets.all(15),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
                       color: Colors.deepPurpleAccent,
@@ -67,12 +65,13 @@ class _AddMELectuerState extends State<AddMELectuer> {
                             iconSize: 40,
                             onPressed: () async {
                               final pickedfile = await FilePicker.platform
-                                  .pickFiles(type: FileType.video,withData: true);
+                                  .pickFiles(
+                                      type: FileType.video, withData: true);
                               setState(() {
                                 result = pickedfile;
                               });
                             },
-                            icon: Icon(Icons.video_camera_back_rounded),
+                            icon: const Icon(Icons.video_camera_back_rounded),
                           )
                         : Container(
                             decoration: BoxDecoration(
@@ -87,30 +86,30 @@ class _AddMELectuerState extends State<AddMELectuer> {
                                       result = null;
                                     });
                                   },
-                                  icon: Icon(Icons.cancel_rounded),
+                                  icon: const Icon(Icons.cancel_rounded),
                                   color: Colors.deepPurpleAccent,
                                 ),
                                 Expanded(
                                     child: Text(
                                   '${result?.files.first.name}',
-                                  style:
-                                      TextStyle(color: Colors.deepPurpleAccent),
+                                  style: const TextStyle(
+                                      color: Colors.deepPurpleAccent),
                                   maxLines: 10,
                                 )),
                               ],
                             ),
                           ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  Text(
+                  const Text(
                     'Pick Math Video:',
                     style: TextStyle(fontSize: 20),
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Container(
-                    padding: EdgeInsets.all(15),
+                    padding: const EdgeInsets.all(15),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
                       color: Colors.orangeAccent,
@@ -121,12 +120,13 @@ class _AddMELectuerState extends State<AddMELectuer> {
                             iconSize: 40,
                             onPressed: () async {
                               final pickedfile = await FilePicker.platform
-                                  .pickFiles(type: FileType.video,withData: true);
+                                  .pickFiles(
+                                      type: FileType.video, withData: true);
                               setState(() {
                                 result2 = pickedfile;
                               });
                             },
-                            icon: Icon(Icons.video_camera_back_rounded),
+                            icon: const Icon(Icons.video_camera_back_rounded),
                           )
                         : Container(
                             decoration: BoxDecoration(
@@ -141,45 +141,46 @@ class _AddMELectuerState extends State<AddMELectuer> {
                                       result2 = null;
                                     });
                                   },
-                                  icon: Icon(Icons.cancel_rounded),
+                                  icon: const Icon(Icons.cancel_rounded),
                                   color: Colors.orangeAccent,
                                 ),
                                 Expanded(
                                     child: Text(
                                   '${result2?.files.first.name}',
-                                  style: TextStyle(color: Colors.orangeAccent),
+                                  style: const TextStyle(
+                                      color: Colors.orangeAccent),
                                   maxLines: 10,
                                 )),
                               ],
                             ),
                           ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20.0,
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blueAccent,
-                      textStyle: TextStyle(fontSize: 30),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 100),
+                      textStyle: const TextStyle(fontSize: 30),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 100),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
                     ),
                     onPressed: () async {
-                      if (lectureName != null&&result!=null&&result2!=null) {
+                      if (result != null && result2 != null) {
                         setState(() {
                           isLoading = true;
                         });
                         await pick_file(result, result2);
                       } else {}
                     },
-                    child: Text(
+                    child: const Text(
                       'submit',
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                 ],
@@ -191,17 +192,17 @@ class _AddMELectuerState extends State<AddMELectuer> {
             ? Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
-                color: Color(0x80000000),
+                color: const Color(0x80000000),
                 child: Center(
-                    child: Container(
+                    child: SizedBox(
                   height: 100.0,
                   width: progress == 100.0 ? double.infinity : 100,
                   child: AnimatedSwitcher(
-                    duration: Duration(milliseconds: 375),
+                    duration: const Duration(milliseconds: 375),
                     child: progress == 100.0
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
+                            children: const [
                               Icon(
                                 Icons.check_rounded,
                                 color: Colors.green,
@@ -214,8 +215,8 @@ class _AddMELectuerState extends State<AddMELectuer> {
                             ],
                           )
                         : const Center(
-                      child: CircularProgressIndicator(),
-                    ),
+                            child: CircularProgressIndicator(),
+                          ),
                   ),
                 )),
               )
@@ -233,7 +234,7 @@ class _AddMELectuerState extends State<AddMELectuer> {
       String fileName2 =
           "web/math_and_english/${FireWeb.MEData?.keys.elementAt(FireWeb.MEYear)}/math/${FireWeb.addUnderScore(lectureName)}.mp4";
       Map<String, dynamic> addedMap = {
-        '${lectureName}': {
+        lectureName: {
           'english': {'refrance': fileName, 'favourite': false},
           'math': {'refrance': fileName2, 'favourite': false}
         }

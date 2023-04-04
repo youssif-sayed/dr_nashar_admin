@@ -11,13 +11,16 @@ class SubjectScreen extends StatefulWidget {
 
 class _SubjectScreenState extends State<SubjectScreen> {
   @override
-  List <bool> isFavoret = [true,];
-  bool isLoading=false;
+  List<bool> isFavoret = [
+    true,
+  ];
+  bool isLoading = false;
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Container(
-          child: Image(
+          child: const Image(
             image: AssetImage(
               'images/Icons/appIcon.png',
             ),
@@ -28,8 +31,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
         backgroundColor: Colors.white,
         shadowColor: Colors.transparent,
       ),
-      body: Stack(
-        children: [SafeArea(
+      body: Stack(children: [
+        SafeArea(
           child: Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -38,59 +41,68 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   child: ListView.builder(
                       itemCount: FireWeb.currentSubject.length,
                       itemBuilder: (BuildContext context, int index) {
-
                         return Column(
                           children: [
                             Card(
                                 child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
                                       child: Text(
                                     '${FireWeb.currentSubject.values.elementAt(index)['name']}',
                                     maxLines: 3,
-                                    style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
+                                    style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
                                   )),
                                   Row(
                                     children: [
                                       IconButton(
                                         onPressed: () {
                                           setState(() {
-
-                                            if (FireWeb.currentSubject.values.elementAt(index)['favourite']) {
-                                              FireWeb.currentSubject.values.elementAt(
-                                                  index)['favourite'] = false;
-                                              FireWeb.update_favourite(index,false);
+                                            if (FireWeb.currentSubject.values
+                                                .elementAt(
+                                                    index)['favourite']) {
+                                              FireWeb.currentSubject.values
+                                                      .elementAt(
+                                                          index)['favourite'] =
+                                                  false;
+                                              FireWeb.update_favourite(
+                                                  index, false);
+                                            } else {
+                                              FireWeb.currentSubject.values
+                                                      .elementAt(
+                                                          index)['favourite'] =
+                                                  true;
+                                              FireWeb.update_favourite(
+                                                  index, true);
                                             }
-                                            else
-                                              {FireWeb.currentSubject.values.elementAt(index)['favourite']=true;
-                                             FireWeb.update_favourite(index,true);}
-
                                           });
                                         },
                                         icon: Icon(
-                                          FireWeb.currentSubject.values.elementAt(index)['favourite']
+                                          FireWeb.currentSubject.values
+                                                  .elementAt(index)['favourite']
                                               ? Icons.star_rounded
                                               : Icons.star_border_rounded,
                                           color: Colors.amberAccent,
                                         ),
                                       ),
                                       IconButton(
-                                        onPressed: () async{
+                                        onPressed: () async {
                                           setState(() {
-                                           isLoading=true;
-
+                                            isLoading = true;
                                           });
                                           await FireWeb.delete_lecture(index);
                                           await FireWeb.getYears();
                                           setState(() {
-                                            isLoading=false;
+                                            isLoading = false;
                                             Navigator.pop(context);
                                           });
                                         },
-                                        icon: Icon(
+                                        icon: const Icon(
                                           Icons.delete_rounded,
                                           color: Colors.red,
                                         ),
@@ -100,7 +112,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                 ],
                               ),
                             )),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                           ],
@@ -111,12 +123,13 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   onPressed: () {
                     Navigator.pushNamed(context, 'AddLecture');
                   },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                  style:
+                      ElevatedButton.styleFrom(backgroundColor: Colors.green),
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: const [
                         Icon(
                           Icons.add_rounded,
                           size: 30,
@@ -133,14 +146,17 @@ class _SubjectScreenState extends State<SubjectScreen> {
             ),
           ),
         ),
-          isLoading?Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: Color(0x80000000),
-            child: Center(child: CircularProgressIndicator(),),
-          ):Container(),
-        ]
-      ),
+        isLoading
+            ? Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                color: const Color(0x80000000),
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            : Container(),
+      ]),
     );
   }
 }

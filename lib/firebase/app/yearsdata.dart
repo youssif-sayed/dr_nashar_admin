@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dr_nashar_admin/components.dart';
 import 'package:dr_nashar_admin/screens/models/lecture_model.dart';
 
 class YearsData {
@@ -7,7 +6,11 @@ class YearsData {
   static var selectedSubject, selectedYear;
   static List<LectureModel> subjectData = [];
   static var lectureNumber, lectureCodes, lectureID;
-  static List<String> lectureLinkNames=[],lectureLinkVideosName=[],lectureLinkVideosUrls=[],lectureLinkDocsName=[],lectureLinkDocsUrls=[];
+  static List<String> lectureLinkNames = [],
+      lectureLinkVideosName = [],
+      lectureLinkVideosUrls = [],
+      lectureLinkDocsName = [],
+      lectureLinkDocsUrls = [];
   static var studentsData, studentWork, studentAssignments, studentQuizzes;
 
   static Future<bool> get_years_data() async {
@@ -53,8 +56,8 @@ class YearsData {
 
   static Future<List<LectureModel>> get_subject_data() async {
     await FirebaseFirestore.instance
-        .collection("${selectedYear}-lectures")
-        .doc('${selectedSubject}')
+        .collection("$selectedYear-lectures")
+        .doc('$selectedSubject')
         .collection('lectures')
         .get()
         .then((value) {
