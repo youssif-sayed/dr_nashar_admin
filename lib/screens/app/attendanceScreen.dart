@@ -46,7 +46,7 @@ class QRScanner extends StatefulWidget {
 
 class _QRScannerState extends State<QRScanner> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  List<String> attendents = [];
+  final List<String> _attendants = [];
 
   bool showCaptureIndicator = false;
 
@@ -60,34 +60,10 @@ class _QRScannerState extends State<QRScanner> {
           children: [
             MobileScanner(
               controller: MobileScannerController(
-                detectionSpeed: DetectionSpeed.normal,
+                detectionSpeed: DetectionSpeed.noDuplicates,
                 facing: CameraFacing.back,
               ),
-              onDetect: (BarcodeCapture capture) async {
-                final List<Barcode> barcodes = capture.barcodes;
-                if (!attendents.contains(barcodes.first.rawValue)) {
-                  setState(() {
-                    showCaptureIndicator = true;
-                    attendents.add(barcodes.first.rawValue ?? '');
-                  });
-                  await FirebaseFirestore.instance.collection('attendence').add(
-                    {
-                      'student_uid': barcodes.first.rawValue,
-                      'time': DateTime.now()
-                    },
-                  );
-                  setState(() {
-                    showCaptureIndicator = false;
-                  });
-
-                  for (final barcode in barcodes) {
-                    debugPrint('Barcode found! ${barcode.rawValue}');
-                  }
-                } else {
-                  showToast(
-                      'Student has already been registered', ToastGravity.TOP);
-                }
-              },
+              onDetect: _onQRCodeDetected,
             ),
             ColorFiltered(
               colorFilter: ColorFilter.mode(
@@ -136,5 +112,32 @@ class _QRScannerState extends State<QRScanner> {
         ),
       ),
     );
+  }
+
+  void _onQRCodeDetected(BarcodeCapture capture) async {
+    final List<Barcode> barcodes = capture.barcodes;
+
+    for (final barcode in barcodes) {
+      debugPrint('Barcode found! ${barcode.rawValue}');
+    }
+
+    if (_attendants.contains(barcodes.first.rawValue)) {
+      showToast(
+        'Student has already been registered',
+        ToastGravity.TOP,
+      );
+      return;
+    }
+
+    setState(() {
+      showCaptureIndicator = true;
+      _attendants.add(barcodes.first.rawValue ?? '');
+    });
+
+    await FirebaseFirestore.instance.collection('attendence').add(
+      {'student_uid': barcodes.first.rawValue, 'time': DateTime.now()},
+    );
+
+    setState(() => showCaptureIndicator = false);
   }
 }
