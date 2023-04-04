@@ -21,7 +21,7 @@ class AppSubjectScreen extends StatefulWidget {
 class _AppSubjectScreenState extends State<AppSubjectScreen> {
   var selectedYear = 'sec1';
   var fetchedyear;
-  var name,term;
+  var name, term;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +63,7 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
         centerTitle: true,
         shadowColor: Colors.transparent,
         backgroundColor: Colors.white,
-        title: Container(
+        title: SizedBox(
           height: 50,
           child: Hero(
             tag: 'logo',
@@ -135,13 +135,6 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                         },
                         child: Container(
                           padding: const EdgeInsets.all(10),
-                          child: Text(
-                            '2nd sec',
-                            style: TextStyle(
-                                color: selectedYear == 'sec2'
-                                    ? Colors.white
-                                    : Colors.black),
-                          ),
                           decoration: BoxDecoration(
                               color:
                                   selectedYear == 'sec2' ? Colors.black : null,
@@ -149,6 +142,13 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                               border: selectedYear == 'sec2'
                                   ? null
                                   : Border.all(width: 1)),
+                          child: Text(
+                            '2nd sec',
+                            style: TextStyle(
+                                color: selectedYear == 'sec2'
+                                    ? Colors.white
+                                    : Colors.black),
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -162,13 +162,6 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                         },
                         child: Container(
                           padding: const EdgeInsets.all(10),
-                          child: Text(
-                            '3rd sec',
-                            style: TextStyle(
-                                color: selectedYear == 'sec3'
-                                    ? Colors.white
-                                    : Colors.black),
-                          ),
                           decoration: BoxDecoration(
                               color:
                                   selectedYear == 'sec3' ? Colors.black : null,
@@ -176,6 +169,13 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                               border: selectedYear == 'sec3'
                                   ? null
                                   : Border.all(width: 1)),
+                          child: Text(
+                            '3rd sec',
+                            style: TextStyle(
+                                color: selectedYear == 'sec3'
+                                    ? Colors.white
+                                    : Colors.black),
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -189,13 +189,6 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                         },
                         child: Container(
                           padding: const EdgeInsets.all(10),
-                          child: Text(
-                            '1st prep',
-                            style: TextStyle(
-                                color: selectedYear == 'prep1'
-                                    ? Colors.white
-                                    : Colors.black),
-                          ),
                           decoration: BoxDecoration(
                               color:
                                   selectedYear == 'prep1' ? Colors.black : null,
@@ -203,6 +196,13 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                               border: selectedYear == 'prep1'
                                   ? null
                                   : Border.all(width: 1)),
+                          child: Text(
+                            '1st prep',
+                            style: TextStyle(
+                                color: selectedYear == 'prep1'
+                                    ? Colors.white
+                                    : Colors.black),
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -216,13 +216,6 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                         },
                         child: Container(
                           padding: const EdgeInsets.all(10),
-                          child: Text(
-                            '2nd prep',
-                            style: TextStyle(
-                                color: selectedYear == 'prep2'
-                                    ? Colors.white
-                                    : Colors.black),
-                          ),
                           decoration: BoxDecoration(
                               color:
                                   selectedYear == 'prep2' ? Colors.black : null,
@@ -230,6 +223,13 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                               border: selectedYear == 'prep2'
                                   ? null
                                   : Border.all(width: 1)),
+                          child: Text(
+                            '2nd prep',
+                            style: TextStyle(
+                                color: selectedYear == 'prep2'
+                                    ? Colors.white
+                                    : Colors.black),
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -243,13 +243,6 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                         },
                         child: Container(
                           padding: const EdgeInsets.all(10),
-                          child: Text(
-                            '3rd prep',
-                            style: TextStyle(
-                                color: selectedYear == 'prep3'
-                                    ? Colors.white
-                                    : Colors.black),
-                          ),
                           decoration: BoxDecoration(
                               color:
                                   selectedYear == 'prep3' ? Colors.black : null,
@@ -257,6 +250,13 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                               border: selectedYear == 'prep3'
                                   ? null
                                   : Border.all(width: 1)),
+                          child: Text(
+                            '3rd prep',
+                            style: TextStyle(
+                                color: selectedYear == 'prep3'
+                                    ? Colors.white
+                                    : Colors.black),
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -272,86 +272,128 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                     itemBuilder: (BuildContext context, int index) {
                       return Subject(index);
                     }),
-                SizedBox(height: 12,),
+                const SizedBox(
+                  height: 12,
+                ),
                 MaterialButton(
-                  onPressed: (){
-                    showModalBottomSheet(context: context,isScrollControlled: true,shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18),
-                    ), builder: (context){
-                      return Padding(
-                        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom,),
-                        child: Container(
-                          height: 300,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(height: 34,),
-                                    TextField(
-                                      keyboardType: TextInputType.text,
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        labelText: 'Subject Name',
-                                        hintText: 'Enter Subject Name',
-                                      ),
-                                      onChanged: (value){name=value;},),
-                                    SizedBox(height: 34,),
-
-
-                                    TextField(
-                                      keyboardType: TextInputType.text,
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        labelText: 'Term',
-                                        hintText: 'Enter term Name',
-                                      ),
-                                      onChanged: (value){term=value;},),
-                                  ],
-                                ),
-                              ),
-                              Column(
+                  onPressed: () {
+                    showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                        builder: (context) {
+                          return Padding(
+                            padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom,
+                            ),
+                            child: SizedBox(
+                              height: 300,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-
-                                  MaterialButton(
-                                    onPressed: () async {
-                                      if (name!=null&&term!=null){
-                                        Map<String,dynamic> addSubjectMap ={
-                                          'name':name,
-                                          'term':term,
-                                          'image':'${fetchedyear[0]['image']}'
-                                        };
-                                        await FirebaseFirestore.instance.collection("${selectedYear}-lectures").doc(name).set(addSubjectMap);
-                                        Navigator.of(context).pop();
-                                        Navigator.of(context).pop();
-                                      }
-
-                                    }
-                                    ,child: Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    decoration: BoxDecoration(color: Colors.blueAccent,borderRadius: BorderRadius.circular(50)),
-                                    height: 50,
-                                    child: Center(child: Text('Enter',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25),),),
-                                  ),),
-                                  SizedBox(height: 32,),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 18.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const SizedBox(
+                                          height: 34,
+                                        ),
+                                        TextField(
+                                          keyboardType: TextInputType.text,
+                                          decoration: const InputDecoration(
+                                            border: OutlineInputBorder(),
+                                            labelText: 'Subject Name',
+                                            hintText: 'Enter Subject Name',
+                                          ),
+                                          onChanged: (value) {
+                                            name = value;
+                                          },
+                                        ),
+                                        const SizedBox(
+                                          height: 34,
+                                        ),
+                                        TextField(
+                                          keyboardType: TextInputType.text,
+                                          decoration: const InputDecoration(
+                                            border: OutlineInputBorder(),
+                                            labelText: 'Term',
+                                            hintText: 'Enter term Name',
+                                          ),
+                                          onChanged: (value) {
+                                            term = value;
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Column(
+                                    children: [
+                                      MaterialButton(
+                                        onPressed: () async {
+                                          if (name != null && term != null) {
+                                            Map<String, dynamic> addSubjectMap =
+                                                {
+                                              'name': name,
+                                              'term': term,
+                                              'image':
+                                                  '${fetchedyear[0]['image']}'
+                                            };
+                                            await FirebaseFirestore.instance
+                                                .collection(
+                                                    "$selectedYear-lectures")
+                                                .doc(name)
+                                                .set(addSubjectMap);
+                                            Navigator.of(context).pop();
+                                            Navigator.of(context).pop();
+                                          }
+                                        },
+                                        child: Container(
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          decoration: BoxDecoration(
+                                              color: Colors.blueAccent,
+                                              borderRadius:
+                                                  BorderRadius.circular(50)),
+                                          height: 50,
+                                          child: const Center(
+                                            child: Text(
+                                              'Enter',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 25),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 32,
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               ),
-
-                            ],
-                          ),
-                        ),
-                      );
-                    });
+                            ),
+                          );
+                        });
                   },
-                  child: Container(width: MediaQuery.of(context).size.width
-                      ,height: 40
-
-                      ,decoration: BoxDecoration(color: Colors.blueAccent,
-                          borderRadius: BorderRadius.circular(50)
-                      ),child: Center(child: Text('Add',style: TextStyle(color: Colors.white,fontSize: 25),))),
+                  child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 40,
+                      decoration: BoxDecoration(
+                          color: Colors.blueAccent,
+                          borderRadius: BorderRadius.circular(50)),
+                      child: const Center(
+                          child: Text(
+                        'Add',
+                        style: TextStyle(color: Colors.white, fontSize: 25),
+                      ))),
                 ),
               ],
             ),
@@ -378,12 +420,12 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                 children: [
                   Stack(children: [
                     Shimmer.fromColors(
+                      highlightColor: Colors.white,
+                      baseColor: Colors.grey,
                       child: Container(
                         height: 150,
                         color: Colors.grey,
                       ),
-                      highlightColor: Colors.white,
-                      baseColor: Colors.grey,
                     ),
                     Image.network(
                       '${fetchedyear[index]['image']}',
@@ -413,14 +455,14 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                                 border: Border.all(width: 2)),
                             padding: const EdgeInsets.all(15),
                             child: Row(
-                              children: [
-                                const Text(
+                              children: const [
+                                Text(
                                   'Start',
                                   style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                const Icon(Icons.arrow_forward_ios_rounded),
+                                Icon(Icons.arrow_forward_ios_rounded),
                               ],
                             ),
                           ),
@@ -456,14 +498,19 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                       ),
                     ),
                   ),
-                  IconButton(onPressed: ()async{
-                    YearsData.selectedSubject = fetchedyear[index].id;
-                    YearsData.selectedYear = selectedYear;
-                    await FirebaseFirestore.instance
-                        .collection("${YearsData.selectedYear}-lectures")
-                        .doc('${YearsData.selectedSubject}').delete();
-                    Navigator.of(context).pop();
-                  }, icon: Icon(Icons.delete_rounded),color: Colors.red,)
+                  IconButton(
+                    onPressed: () async {
+                      YearsData.selectedSubject = fetchedyear[index].id;
+                      YearsData.selectedYear = selectedYear;
+                      await FirebaseFirestore.instance
+                          .collection("${YearsData.selectedYear}-lectures")
+                          .doc('${YearsData.selectedSubject}')
+                          .delete();
+                      Navigator.of(context).pop();
+                    },
+                    icon: const Icon(Icons.delete_rounded),
+                    color: Colors.red,
+                  )
                 ],
               ),
             )

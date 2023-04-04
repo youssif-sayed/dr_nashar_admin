@@ -63,8 +63,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '582450987697',
     projectId: 'dr-nashar',
     storageBucket: 'dr-nashar.appspot.com',
-    androidClientId: '582450987697-dps73qcp8ekhmv5kuc5fctmod246viqu.apps.googleusercontent.com',
-    iosClientId: '582450987697-52va04iv762p03uo794b2i3kmglv13t7.apps.googleusercontent.com',
+    androidClientId:
+        '582450987697-dps73qcp8ekhmv5kuc5fctmod246viqu.apps.googleusercontent.com',
+    iosClientId:
+        '582450987697-52va04iv762p03uo794b2i3kmglv13t7.apps.googleusercontent.com',
     iosBundleId: 'com.drnashar.drNasharAdmin',
   );
 }

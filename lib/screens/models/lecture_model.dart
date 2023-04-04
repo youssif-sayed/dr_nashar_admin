@@ -45,8 +45,7 @@ class LectureModel extends Equatable {
         image: json["image"],
         documents: List<Document>.from(
             json["documents"].map((x) => Document.fromJson(x))),
-        videos: List<Video>.from(
-            json["videos"].map((x) => Video.fromJson(x))),
+        videos: List<Video>.from(json["videos"].map((x) => Video.fromJson(x))),
         name: json["name"],
         price: json["price"],
         id: json["id"],

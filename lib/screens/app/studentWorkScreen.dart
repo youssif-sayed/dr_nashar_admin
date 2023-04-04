@@ -112,7 +112,7 @@ class StudentWorkElement extends StatefulWidget {
   final int wrongAnswers;
   final bool assignment;
 
-  StudentWorkElement({
+  const StudentWorkElement({
     super.key,
     required this.index,
     required this.name,

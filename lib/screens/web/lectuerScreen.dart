@@ -1,15 +1,16 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../firebase/web/fireweb.dart';
 
 class LectuerScreen extends StatelessWidget {
+  const LectuerScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Container(
-          child: Image(
+          child: const Image(
             image: AssetImage(
               'images/Icons/appIcon.png',
             ),
@@ -24,22 +25,23 @@ class LectuerScreen extends StatelessWidget {
           child: ListView.builder(
               itemCount: FireWeb.years?.length,
               itemBuilder: (BuildContext context, int index) {
-                return listItem(index,context);
+                return listItem(index, context);
               })),
     );
   }
 
   Widget? listItem(int index, BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(12.0),
+      padding: const EdgeInsets.all(12.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '${FireWeb.removeUnderScore(FireWeb.years?.elementAt(index))}',
-            style: TextStyle(fontSize: 20, color: Colors.teal,fontWeight: FontWeight.bold),
+            FireWeb.removeUnderScore(FireWeb.years?.elementAt(index)),
+            style: const TextStyle(
+                fontSize: 20, color: Colors.teal, fontWeight: FontWeight.bold),
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           Padding(
@@ -51,14 +53,14 @@ class LectuerScreen extends StatelessWidget {
                     for (int i = 0;
                         i < FireWeb.yearsData?.values.elementAt(index).length;
                         i++)
-                      termViewer(i, index,context),
+                      termViewer(i, index, context),
                   ],
                 ),
               )),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
-          Divider(
+          const Divider(
             color: Colors.black54,
           ),
         ],
@@ -71,18 +73,21 @@ class LectuerScreen extends StatelessWidget {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           //decoration: BoxDecoration(border: Border.all(width: 1,color: Colors.teal),
           //borderRadius: BorderRadius.circular(12)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '${FireWeb.removeUnderScore(FireWeb.yearsData?.values.elementAt(index).keys.elementAt(index1))}',
-                style: TextStyle(fontSize: 20, color: Colors.blueGrey),
+                FireWeb.removeUnderScore(FireWeb.yearsData?.values
+                    .elementAt(index)
+                    .keys
+                    .elementAt(index1)),
+                style: const TextStyle(fontSize: 20, color: Colors.blueGrey),
               ),
               Padding(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -94,27 +99,33 @@ class LectuerScreen extends StatelessWidget {
                                 .elementAt(index1)
                                 .length;
                         i++)
-                      subjectViewer(index, index1, i,context),
+                      subjectViewer(index, index1, i, context),
                   ],
                 ),
               ),
             ],
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
       ],
     );
   }
 
-  Widget subjectViewer(int index, int index1, int index2, BuildContext context) {
+  Widget subjectViewer(
+      int index, int index1, int index2, BuildContext context) {
     return Column(
       children: [
         ElevatedButton(
           onPressed: () {
-            FireWeb.currentSubject = FireWeb.yearsData?.values.elementAt(index).values.elementAt(index1).values.elementAt(index2);
-            FireWeb.inhetanceSubjectNumbers=[index,index1,index2];
+            FireWeb.currentSubject = FireWeb.yearsData?.values
+                .elementAt(index)
+                .values
+                .elementAt(index1)
+                .values
+                .elementAt(index2);
+            FireWeb.inhetanceSubjectNumbers = [index, index1, index2];
             Navigator.pushNamed(context, 'SubjectScreen');
           },
           style: ElevatedButton.styleFrom(backgroundColor: Colors.blueAccent),
@@ -125,8 +136,13 @@ class LectuerScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    '${FireWeb.removeUnderScore(FireWeb.yearsData?.values.elementAt(index).values.elementAt(index1).keys.elementAt(index2))}',
-                    style: TextStyle(
+                    FireWeb.removeUnderScore(FireWeb.yearsData?.values
+                        .elementAt(index)
+                        .values
+                        .elementAt(index1)
+                        .keys
+                        .elementAt(index2)),
+                    style: const TextStyle(
                       fontSize: 20,
                     ),
                     softWrap: false,
@@ -134,12 +150,14 @@ class LectuerScreen extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                Icon(Icons.arrow_forward_ios_rounded),
+                const Icon(Icons.arrow_forward_ios_rounded),
               ],
             ),
           ),
         ),
-        SizedBox(height: 10,)
+        const SizedBox(
+          height: 10,
+        )
       ],
     );
   }

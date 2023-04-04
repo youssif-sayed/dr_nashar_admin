@@ -6,36 +6,40 @@ import 'package:path_provider/path_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:excel/excel.dart';
 
-
-class FireApp{
-
-  static Future<void> generate_lecture_code(int num,int expireTimes,String price)
-  async {
+class FireApp {
+  static Future<void> generate_lecture_code(
+      int num, int expireTimes, String price) async {
     final random = Random();
-    List<String> stringCodes=[];
-    List<int> codes = List<int>.generate(num, (index) => random.nextInt(900000)+100000);
-    Map<String,dynamic> codeMap = {'used':false,'UID':'','expireDate':expireTimes,'price':price};
-    Map<String,dynamic> newMap={};
-    for (int i=0;i<num;i++)
-    {
+    List<String> stringCodes = [];
+    List<int> codes =
+        List<int>.generate(num, (index) => random.nextInt(900000) + 100000);
+    Map<String, dynamic> codeMap = {
+      'used': false,
+      'UID': '',
+      'expireDate': expireTimes,
+      'price': price
+    };
+    Map<String, dynamic> newMap = {};
+    for (int i = 0; i < num; i++) {
       stringCodes.add('DN-${codes[i]}');
-      newMap.addAll({stringCodes[i]:codeMap});
+      newMap.addAll({stringCodes[i]: codeMap});
     }
-    final docRef = FirebaseFirestore.instance.collection("codes").doc("general");
+    final docRef =
+        FirebaseFirestore.instance.collection("codes").doc("general");
     docRef.update(newMap);
-    final data =await createInvoice(stringCodes);
+    final data = await createInvoice(stringCodes);
     savePdfFile('generated codes', data!);
   }
-
 
   static Future<List<int>?> createInvoice(list) async {
     //final pdf = pw.Document();
     var excel = Excel.createExcel();
     Sheet sheetObject = excel[excel.getDefaultSheet()!];
-    for(int i =0;i<list.length;i++)
-      {
-        sheetObject.cell(CellIndex.indexByColumnRow(columnIndex: 0,rowIndex: i)).value=list[i];
-      }
+    for (int i = 0; i < list.length; i++) {
+      sheetObject
+          .cell(CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: i))
+          .value = list[i];
+    }
     return excel.save(fileName: 'codes.xlsx');
 
     // pdf.addPage(
@@ -51,8 +55,6 @@ class FireApp{
     // return pdf.save();
   }
 
-
-
   static Future<void> savePdfFile(String fileName, List<int> byteList) async {
     final output = await getTemporaryDirectory();
     var filePath = "${output.path}/$fileName.xlsx";
@@ -60,7 +62,4 @@ class FireApp{
     await file.writeAsBytes(byteList);
     await OpenDocument.openDocument(filePath: filePath);
   }
-
-
-
 }

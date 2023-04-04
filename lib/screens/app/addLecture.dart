@@ -6,11 +6,8 @@ import 'package:dr_nashar_admin/firebase/app/yearsdata.dart';
 import 'package:dr_nashar_admin/screens/app/lecture_screen/appLectureScreen.dart';
 import 'package:dr_nashar_admin/screens/models/lecture_model.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-
-import '../../firebase/web/fireweb.dart';
 
 class AppAddLectuerScreen extends StatefulWidget {
   const AppAddLectuerScreen({Key? key}) : super(key: key);
@@ -530,7 +527,6 @@ class _AppAddLectuerScreenState extends State<AppAddLectuerScreen> {
           .collection('lectures')
           .doc(lectureId)
           .set(lecture.toJson());
-
 
       copiedLectureData = [];
     }

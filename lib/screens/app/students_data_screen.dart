@@ -65,357 +65,361 @@ class _StudentsDataScreenState extends State<StudentsDataScreen> {
 
   @override
   Widget build(BuildContext context) {
-    bool isLoading=false;
+    bool isLoading = false;
     return Scaffold(
       backgroundColor: CupertinoColors.lightBackgroundGray,
       appBar: CustomAppBar(),
-      body:  Stack(
+      body: Stack(
         children: [
           SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Column(
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Column(
+                children: [
+                  const SizedBox(height: 10.0),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
                       children: [
-                        const SizedBox(height: 10.0),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    selectedYear = 'sec1';
-                                    selectStudentsYear();
-                                  });
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                      color: selectedYear == 'sec1'
-                                          ? Colors.black
-                                          : null,
-                                      borderRadius: BorderRadius.circular(50),
-                                      border: selectedYear == 'sec1'
-                                          ? null
-                                          : Border.all(width: 1)),
-                                  child: Text(
-                                    '1st sec',
-                                    style: TextStyle(
-                                        color: selectedYear == 'sec1'
-                                            ? Colors.white
-                                            : Colors.black),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    selectedYear = 'sec2';
-                                    selectStudentsYear();
-                                  });
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                      color: selectedYear == 'sec2'
-                                          ? Colors.black
-                                          : null,
-                                      borderRadius: BorderRadius.circular(50),
-                                      border: selectedYear == 'sec2'
-                                          ? null
-                                          : Border.all(width: 1)),
-                                  child: Text(
-                                    '2nd sec',
-                                    style: TextStyle(
-                                        color: selectedYear == 'sec2'
-                                            ? Colors.white
-                                            : Colors.black),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    selectedYear = 'sec3';
-                                    selectStudentsYear();
-                                  });
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                      color: selectedYear == 'sec3'
-                                          ? Colors.black
-                                          : null,
-                                      borderRadius: BorderRadius.circular(50),
-                                      border: selectedYear == 'sec3'
-                                          ? null
-                                          : Border.all(width: 1)),
-                                  child: Text(
-                                    '3rd sec',
-                                    style: TextStyle(
-                                        color: selectedYear == 'sec3'
-                                            ? Colors.white
-                                            : Colors.black),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    selectedYear = 'prep1';
-                                    selectStudentsYear();
-                                  });
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                      color: selectedYear == 'prep1'
-                                          ? Colors.black
-                                          : null,
-                                      borderRadius: BorderRadius.circular(50),
-                                      border: selectedYear == 'prep1'
-                                          ? null
-                                          : Border.all(width: 1)),
-                                  child: Text(
-                                    '1st prep',
-                                    style: TextStyle(
-                                        color: selectedYear == 'prep1'
-                                            ? Colors.white
-                                            : Colors.black),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    selectedYear = 'prep2';
-                                    selectStudentsYear();
-                                  });
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                      color: selectedYear == 'prep2'
-                                          ? Colors.black
-                                          : null,
-                                      borderRadius: BorderRadius.circular(50),
-                                      border: selectedYear == 'prep2'
-                                          ? null
-                                          : Border.all(width: 1)),
-                                  child: Text(
-                                    '2nd prep',
-                                    style: TextStyle(
-                                        color: selectedYear == 'prep2'
-                                            ? Colors.white
-                                            : Colors.black),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    selectedYear = 'prep3';
-                                    selectStudentsYear();
-                                  });
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                      color: selectedYear == 'prep3'
-                                          ? Colors.black
-                                          : null,
-                                      borderRadius: BorderRadius.circular(50),
-                                      border: selectedYear == 'prep3'
-                                          ? null
-                                          : Border.all(width: 1)),
-                                  child: Text(
-                                    '3rd prep',
-                                    style: TextStyle(
-                                        color: selectedYear == 'prep3'
-                                            ? Colors.white
-                                            : Colors.black),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                            ],
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              selectedYear = 'sec1';
+                              selectStudentsYear();
+                            });
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                color: selectedYear == 'sec1'
+                                    ? Colors.black
+                                    : null,
+                                borderRadius: BorderRadius.circular(50),
+                                border: selectedYear == 'sec1'
+                                    ? null
+                                    : Border.all(width: 1)),
+                            child: Text(
+                              '1st sec',
+                              style: TextStyle(
+                                  color: selectedYear == 'sec1'
+                                      ? Colors.white
+                                      : Colors.black),
+                            ),
                           ),
                         ),
-                        const SizedBox(height: 20.0),
-                        ListView.separated(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          separatorBuilder: (context, index) =>
-                              const SizedBox(height: 10.0),
-                          itemBuilder: (context, index) {
-                            return Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20.0, vertical: 10.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15.0),
-                                color: Colors.white,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        '${students[index]['firstName']} ${students[index]['lastName']}',
-                                        style: const TextStyle(
-                                          fontSize: 20.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.blue,
-                                        ),
-                                      ),
-                                      IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            isLoading = true;
-                                          });
-                                          showDialog(
-                                            context: context,
-                                            barrierDismissible: false,
-                                            builder: (BuildContext context) {
-                                              return Dialog(
-                                                child: Container(
-
-                                                  padding: const EdgeInsets.all(40),
-                                                  child: new Column(
-
-                                                    mainAxisSize: MainAxisSize.min,
-                                                    children: [
-                                                      new CircularProgressIndicator(),
-                                                      SizedBox(height: 10,),
-                                                      new Text("Loading"),
-                                                    ],
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          );
-                                          YearsData.getUserAssignmentsAndQuizzes(
-                                                  userID: students[index].id)
-                                              .then((value) {
-                                                Navigator.of(context).pop();
-                                            Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                builder: (context) {
-                                                  return StudentWorkScreen(studentID: students[index].id,);
-                                                },
-                                              ),
-                                            );
-                                          });
-
-                                          setState(() {
-                                            isLoading = false;
-                                          });
-                                        },
-                                        icon: const Icon(
-                                          Icons.filter_list_outlined,
-                                          color: Colors.blue,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Text('Grade: ${students[index]['grade']}',
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15.0,
-                                        color: Colors.blue,
-                                      ),
-                                      overflow: TextOverflow.ellipsis),
-                                  const SizedBox(height: 10),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                            'Email: ${students[index]['email']}',
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 15.0,
-                                            ),
-                                            overflow: TextOverflow.ellipsis),
-                                      ),
-                                      Text(
-                                        'Gender: ${students[index]['gender']}',
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15.0,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ],
-                                  ),
-                                  Text('Number: ${students[index]['phone']}',
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15.0,
-                                      ),
-                                      overflow: TextOverflow.ellipsis),
-                                  Text(
-                                      'Father Number: ${students[index]['fatherPhone']}',
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15.0,
-                                      ),
-                                      overflow: TextOverflow.ellipsis),
-                                  Text(
-                                      'Mother Number: ${students[index]['motherPhone']}',
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15.0,
-                                      ),
-                                      overflow: TextOverflow.ellipsis),
-                                  Text('School: ${students[index]['school']}',
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15.0,
-                                      ),
-                                      overflow: TextOverflow.ellipsis),
-                                  Text('Place: ${students[index]['place']}',
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15.0,
-                                      ),
-                                      overflow: TextOverflow.ellipsis),
-                                ],
-                              ),
-                            );
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              selectedYear = 'sec2';
+                              selectStudentsYear();
+                            });
                           },
-                          itemCount: students.length,
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                color: selectedYear == 'sec2'
+                                    ? Colors.black
+                                    : null,
+                                borderRadius: BorderRadius.circular(50),
+                                border: selectedYear == 'sec2'
+                                    ? null
+                                    : Border.all(width: 1)),
+                            child: Text(
+                              '2nd sec',
+                              style: TextStyle(
+                                  color: selectedYear == 'sec2'
+                                      ? Colors.white
+                                      : Colors.black),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              selectedYear = 'sec3';
+                              selectStudentsYear();
+                            });
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                color: selectedYear == 'sec3'
+                                    ? Colors.black
+                                    : null,
+                                borderRadius: BorderRadius.circular(50),
+                                border: selectedYear == 'sec3'
+                                    ? null
+                                    : Border.all(width: 1)),
+                            child: Text(
+                              '3rd sec',
+                              style: TextStyle(
+                                  color: selectedYear == 'sec3'
+                                      ? Colors.white
+                                      : Colors.black),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              selectedYear = 'prep1';
+                              selectStudentsYear();
+                            });
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                color: selectedYear == 'prep1'
+                                    ? Colors.black
+                                    : null,
+                                borderRadius: BorderRadius.circular(50),
+                                border: selectedYear == 'prep1'
+                                    ? null
+                                    : Border.all(width: 1)),
+                            child: Text(
+                              '1st prep',
+                              style: TextStyle(
+                                  color: selectedYear == 'prep1'
+                                      ? Colors.white
+                                      : Colors.black),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              selectedYear = 'prep2';
+                              selectStudentsYear();
+                            });
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                color: selectedYear == 'prep2'
+                                    ? Colors.black
+                                    : null,
+                                borderRadius: BorderRadius.circular(50),
+                                border: selectedYear == 'prep2'
+                                    ? null
+                                    : Border.all(width: 1)),
+                            child: Text(
+                              '2nd prep',
+                              style: TextStyle(
+                                  color: selectedYear == 'prep2'
+                                      ? Colors.white
+                                      : Colors.black),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              selectedYear = 'prep3';
+                              selectStudentsYear();
+                            });
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                color: selectedYear == 'prep3'
+                                    ? Colors.black
+                                    : null,
+                                borderRadius: BorderRadius.circular(50),
+                                border: selectedYear == 'prep3'
+                                    ? null
+                                    : Border.all(width: 1)),
+                            child: Text(
+                              '3rd prep',
+                              style: TextStyle(
+                                  color: selectedYear == 'prep3'
+                                      ? Colors.white
+                                      : Colors.black),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8,
                         ),
                       ],
                     ),
                   ),
-                ),
-          isLoading?Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: Color(0x80000000),
-            child: Center(child: CircularProgressIndicator(),),
-          ):Container(),
+                  const SizedBox(height: 20.0),
+                  ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 10.0),
+                    itemBuilder: (context, index) {
+                      return Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 10.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.0),
+                          color: Colors.white,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  '${students[index]['firstName']} ${students[index]['lastName']}',
+                                  style: const TextStyle(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+                                    showDialog(
+                                      context: context,
+                                      barrierDismissible: false,
+                                      builder: (BuildContext context) {
+                                        return Dialog(
+                                          child: Container(
+                                            padding: const EdgeInsets.all(40),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: const [
+                                                CircularProgressIndicator(),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text("Loading"),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                    YearsData.getUserAssignmentsAndQuizzes(
+                                            userID: students[index].id)
+                                        .then((value) {
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return StudentWorkScreen(
+                                              studentID: students[index].id,
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    });
+
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+                                  },
+                                  icon: const Icon(
+                                    Icons.filter_list_outlined,
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Text('Grade: ${students[index]['grade']}',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15.0,
+                                  color: Colors.blue,
+                                ),
+                                overflow: TextOverflow.ellipsis),
+                            const SizedBox(height: 10),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child:
+                                      Text('Email: ${students[index]['email']}',
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15.0,
+                                          ),
+                                          overflow: TextOverflow.ellipsis),
+                                ),
+                                Text(
+                                  'Gender: ${students[index]['gender']}',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15.0,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                            Text('Number: ${students[index]['phone']}',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15.0,
+                                ),
+                                overflow: TextOverflow.ellipsis),
+                            Text(
+                                'Father Number: ${students[index]['fatherPhone']}',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15.0,
+                                ),
+                                overflow: TextOverflow.ellipsis),
+                            Text(
+                                'Mother Number: ${students[index]['motherPhone']}',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15.0,
+                                ),
+                                overflow: TextOverflow.ellipsis),
+                            Text('School: ${students[index]['school']}',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15.0,
+                                ),
+                                overflow: TextOverflow.ellipsis),
+                            Text('Place: ${students[index]['place']}',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15.0,
+                                ),
+                                overflow: TextOverflow.ellipsis),
+                          ],
+                        ),
+                      );
+                    },
+                    itemCount: students.length,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          isLoading
+              ? Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  color: const Color(0x80000000),
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              : Container(),
         ],
       ),
     );

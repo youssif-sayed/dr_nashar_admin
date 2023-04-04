@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 PreferredSizeWidget CustomAppBar() {
   return AppBar(
     title: Container(
-      child: Image(
+      child: const Image(
         image: AssetImage(
           'images/Icons/appIcon.png',
         ),
