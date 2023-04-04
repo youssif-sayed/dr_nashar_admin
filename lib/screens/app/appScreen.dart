@@ -1,3 +1,4 @@
+import 'package:dr_nashar_admin/screens/app/new_notification_screen.dart';
 import 'package:flutter/material.dart';
 import '../../firebase/app/yearsdata.dart';
 
@@ -200,6 +201,44 @@ class _AppScreenState extends State<AppScreen> {
                               fontSize: 20,
                               color: Colors.white,
                               fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                MaterialButton(
+                  onPressed: () async {
+                    Navigator.pushNamed(
+                      context,
+                      NewNotificationScreen.routeName,
+                    );
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.deepOrange,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: const [
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Icon(
+                          Icons.notification_add,
+                          color: Colors.white,
+                          size: 50,
+                        ),
+                        Text(
+                          'New\nNotification',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
                     ),
