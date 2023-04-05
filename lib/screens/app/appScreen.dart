@@ -217,7 +217,7 @@ class _AppScreenState extends State<AppScreen> {
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.deepOrange,
+                      color: Colors.cyan,
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

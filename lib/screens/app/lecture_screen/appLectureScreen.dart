@@ -113,7 +113,7 @@ class _AppLectureScreenState extends State<AppLectureScreen> {
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.bold,
                                                   color: CupertinoColors
-                                                      .lightBackgroundGray,
+                                                      .white,
                                                 ),
                                               ),
                                             ),
@@ -146,7 +146,7 @@ class _AppLectureScreenState extends State<AppLectureScreen> {
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.bold,
                                                   color: CupertinoColors
-                                                      .lightBackgroundGray,
+                                                      .white,
                                                 ),
                                               ),
                                             ),
@@ -403,6 +403,8 @@ class _AssignmentDetailsScreenState extends State<AssignmentDetailsScreen> {
                     return ListTile(
                       leading: image != null ? Image.network(image) : null,
                       title: Text("${index + 1} - ${question.text}"),
+                      trailing: IconButton(
+                        onPressed: () {},icon: Icon(Icons.edit),color: Colors.blueAccent,),
                     );
                   },
                 )

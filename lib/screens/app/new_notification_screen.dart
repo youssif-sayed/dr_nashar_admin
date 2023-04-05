@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dr_nashar_admin/firebase/app/fireapp.dart';
 import 'package:dr_nashar_admin/utils/helpers.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +41,12 @@ class _NewNotificationScreenState extends State<NewNotificationScreen> {
         centerTitle: true,
         backgroundColor: Colors.white,
         shadowColor: Colors.white,
+        actions: [
+          IconButton(onPressed: ()async{
+            await FireApp.get_notifiaction();
+            Navigator.of(context).pushNamed('NotificationManageScreen');
+          }, icon: Icon(Icons.menu))
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(

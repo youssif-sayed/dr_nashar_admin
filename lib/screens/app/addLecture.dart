@@ -483,9 +483,7 @@ class _AppAddLectuerScreenState extends State<AppAddLectuerScreen> {
           .doc(lectureId)
           .set(lecture.toJson());
 
-      FirebaseFirestore.instance.collection('codes').doc(lectureId).set({
-        'AS-2023': {'UID': '', 'used': false, 'expireDate': 1}
-      });
+
       print('firestore created');
     } else if (image != null && copiedLectureData.isNotEmpty) {
       Uint8List? file = image.files.first.bytes;

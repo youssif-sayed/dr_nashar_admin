@@ -201,9 +201,10 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
                                       },
                                     );
                                   },
-                                  decoration: const InputDecoration(
-                                    border: InputBorder.none,
-                                    fillColor: Colors.grey,
+                                  decoration:  InputDecoration(
+
+                                    fillColor: Colors.white,
+
                                     filled: true,
                                   ),
                                 ),

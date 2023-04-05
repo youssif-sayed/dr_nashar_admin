@@ -123,7 +123,7 @@ class _QRScannerState extends State<QRScanner> {
 
     if (_attendants.contains(barcodes.first.rawValue)) {
       showToast(
-        'Student has already been registered',
+        'Student Attended!',
         ToastGravity.TOP,
       );
       return;

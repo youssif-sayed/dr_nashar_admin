@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:excel/excel.dart';
 
 class FireApp {
+  static var notificationData;
   static Future<void> generate_lecture_code(
       int num, int expireTimes, String price) async {
     final random = Random();
@@ -61,5 +62,15 @@ class FireApp {
     final file = File(filePath);
     await file.writeAsBytes(byteList);
     await OpenDocument.openDocument(filePath: filePath);
+  }
+
+  static Future<void> get_notifiaction()async {
+    await FirebaseFirestore.instance
+        .collection("notifications")
+        .get()
+        .then((value) {
+       notificationData = value.docs ;
+
+    });
   }
 }
