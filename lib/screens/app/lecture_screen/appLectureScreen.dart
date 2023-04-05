@@ -404,7 +404,45 @@ class _AssignmentDetailsScreenState extends State<AssignmentDetailsScreen> {
                       leading: image != null ? Image.network(image) : null,
                       title: Text("${index + 1} - ${question.text}"),
                       trailing: IconButton(
-                        onPressed: () {},icon: Icon(Icons.edit),color: Colors.blueAccent,),
+                        onPressed: () async {
+                          Map lectureData =widget.lecture.toJson();
+                          Map addedMap = lectureData['assignment'];
+                          addedMap['questions'].removeAt(index);
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return Dialog(
+                                child: Container(
+                                  padding: const EdgeInsets.all(40),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: const [
+                                      CircularProgressIndicator(),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text("Loading"),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        await FirebaseFirestore.instance.
+                        collection('${YearsData.selectedYear}-lectures').
+                        doc('${YearsData.selectedSubject}').
+                        collection('lectures').
+                        doc('${widget.lecture.id}').
+                        update({'assignment':addedMap});
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                          showToast(
+                            'Question Deleted',
+                            ToastGravity.TOP,
+                          );
+                        },icon: Icon(Icons.delete_rounded),color: Colors.red,),
                     );
                   },
                 )
@@ -560,6 +598,46 @@ class _QuizDetailsScreenState extends State<QuizDetailsScreen> {
                     return ListTile(
                       leading: image != null ? Image.network(image) : null,
                       title: Text("${index + 1} - ${question.text}"),
+                      trailing: IconButton(
+                        onPressed: () async {
+                          Map lectureData =widget.lecture.toJson();
+                          Map addedMap = lectureData['quiz'];
+                          addedMap['questions'].removeAt(index);
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return Dialog(
+                                child: Container(
+                                  padding: const EdgeInsets.all(40),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: const [
+                                      CircularProgressIndicator(),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text("Loading"),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                          await FirebaseFirestore.instance.
+                          collection('${YearsData.selectedYear}-lectures').
+                          doc('${YearsData.selectedSubject}').
+                          collection('lectures').
+                          doc('${widget.lecture.id}').
+                          update({'quiz':addedMap});
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                          showToast(
+                            'Question Deleted',
+                            ToastGravity.TOP,
+                          );
+                        },icon: Icon(Icons.delete_rounded),color: Colors.red,),
                     );
                   },
                 )
