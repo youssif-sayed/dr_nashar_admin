@@ -44,10 +44,6 @@ class _StudentWorkScreenState extends State<StudentWorkScreen> {
                 separatorBuilder: (context, index) =>
                     const SizedBox(height: 10.0),
                 itemBuilder: (context, index) {
-                  print(assignments);
-                  print(assignments.length);
-                  // return Container(
-                  //     color: Colors.black, height: 100, width: 100);
                   return StudentWorkElement(
                     index: index,
                     assignment: true,
@@ -154,7 +150,7 @@ class _StudentWorkElementState extends State<StudentWorkElement> {
   void initState() {
     super.initState();
     if (widget.assignment) {
-      quizMarks = assignments[widget.index]['quiz_marks'];
+      quizMarks = assignments[widget.index]['assignment_marks'];
       print(quizMarks.substring(
           quizMarks.indexOf('/') + 1, quizMarks.characters.length));
 
@@ -188,8 +184,6 @@ class _StudentWorkElementState extends State<StudentWorkElement> {
       }
     }
   }
-
-  // int newGrade = 0;
 
   late final TextEditingController maxStepsMarksController =
       TextEditingController(text: '$maxStepsMarks');
@@ -357,8 +351,6 @@ class _StudentWorkElementState extends State<StudentWorkElement> {
               } else {
                 if (widget.assignment) {
                   // Assignment
-
-                  print('Assignment');
 
                   showLoadingDialog(context);
                   YearsData.updateAssignmentMark(
