@@ -21,7 +21,7 @@ class AppSubjectScreen extends StatefulWidget {
 class _AppSubjectScreenState extends State<AppSubjectScreen> {
   var selectedYear = 'sec1';
   var fetchedyear;
-  var name, term;
+  String name='', term='';
 
   @override
   Widget build(BuildContext context) {
@@ -336,18 +336,21 @@ class _AppSubjectScreenState extends State<AppSubjectScreen> {
                                     children: [
                                       MaterialButton(
                                         onPressed: () async {
-                                          if (name != null && term != null) {
-                                            Map<String, dynamic> addSubjectMap =
+
+                                          if (name != '' && term != '') {
+
+                                            Map<String, String> addSubjectMap =
                                                 {
                                               'name': name,
                                               'term': term,
                                               'image':
                                                   '${fetchedyear[0]['image']}'
                                             };
+
                                             await FirebaseFirestore.instance
                                                 .collection(
                                                     "$selectedYear-lectures")
-                                                .doc(name)
+                                                .doc("$name")
                                                 .set(addSubjectMap);
                                             Navigator.of(context).pop();
                                             Navigator.of(context).pop();

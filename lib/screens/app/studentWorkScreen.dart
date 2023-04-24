@@ -40,7 +40,7 @@ class _StudentWorkScreenState extends State<StudentWorkScreen> {
                 ),
               ),
               const SizedBox(height: 10.0),
-              ListView.separated(
+            ListView.separated(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 separatorBuilder: (context, index) =>

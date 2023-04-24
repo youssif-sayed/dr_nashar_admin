@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dr_nashar_admin/screens/app/addLecture.dart';
 import 'package:dr_nashar_admin/screens/app/lecture_screen/appLectureScreen.dart';
 import 'package:dr_nashar_admin/screens/app/appScreen.dart';
@@ -32,7 +33,10 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
+
   );
+  var db = FirebaseFirestore.instance;
+  db.settings = const Settings(persistenceEnabled: false);
   runApp(
       BlocProvider(create: (context) => LectureBloc(), child: const MyApp()));
 }

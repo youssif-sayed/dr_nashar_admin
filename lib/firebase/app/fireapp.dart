@@ -27,7 +27,7 @@ class FireApp {
     }
     final docRef =
         FirebaseFirestore.instance.collection("codes").doc("general");
-    docRef.update(newMap);
+    await docRef.update(newMap);
     final data = await createInvoice(stringCodes);
     savePdfFile('generated codes', data!);
   }
