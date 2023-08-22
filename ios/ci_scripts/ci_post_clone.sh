@@ -4,7 +4,7 @@
 cd $CI_WORKSPACE # change working directory to the root of your cloned repo.
 
 # Install Flutter using git.
-git clone https://github.com/flutter/flutter.git --depth 1 --branch 3.7.12 $HOME/flutter
+p $HOME/flutter
 export PATH="$PATH:$HOME/flutter/bin"
 
 # Install Flutter artifacts for iOS (--ios), or macOS (--macos) platforms.

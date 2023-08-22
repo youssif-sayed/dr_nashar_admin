@@ -1,3 +1,5 @@
+name: Automatic TestFlight Build
+
 on:
   workflow_dispatch:
   schedule:
@@ -6,12 +8,17 @@ on:
 jobs:
   deployment:
     runs-on: ubuntu-latest
+
     steps:
     - name: Trigger Codemagic Build
+      env:
+        CODEMAGIC_API_KEY: ${{ secrets.CODEMAGIC_API_KEY }}
+        CODEMAGIC_APP_ID: ${{ secrets.CODEMAGIC_APP_ID }}
+        CODEMAGIC_WORKFLOW_ID: ${{ secrets.CODEMAGIC_WORKFLOW_ID }}
+        DEPLOYMENT_BRANCH: ${{ secrets.DEPLOYMENT_BRANCH }}
       uses: fjogeleit/http-request-action@v1
       with:
         url: 'https://api.codemagic.io/builds'
         method: 'POST'
-        customHeaders: '{"Content-Type": "application/json", "X-Auth-Token": ${{ secrets.CODEMAGIC_API_KEY }} }'
-        data: '{"appId": ${{ secrets.CODEMAGIC_APP_ID }},"workflowId": ${{ secrets.CODEMAGIC_WORKFLOW_ID }},"branch": ${{ secrets.DEPLOYMENT_BRANCH }}}'
-    
+        customHeaders: '{"Content-Type": "application/json", "X-Auth-Token": "${{ env.CODEMAGIC_API_KEY }}"}'
+        data: '{ "appId": "${{ env.CODEMAGIC_APP_ID }}", "workflowId": "${{ env.CODEMAGIC_WORKFLOW_ID }}", "branch": "${{ env.DEPLOYMENT_BRANCH }}" }'
