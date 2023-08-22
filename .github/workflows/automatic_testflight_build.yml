@@ -1,0 +1,17 @@
+on:
+  workflow_dispatch:
+  schedule:
+  - cron: "0 0 */85 * *"
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Trigger Codemagic Build
+      uses: fjogeleit/http-request-action@v1
+      with:
+        url: 'https://api.codemagic.io/builds'
+        method: 'POST'
+        customHeaders: '{"Content-Type": "application/json", "X-Auth-Token": ${{ secrets.CODEMAGIC_API_KEY }} }'
+        data: '{"appId": ${{ secrets.CODEMAGIC_APP_ID }},"workflowId": ${{ secrets.CODEMAGIC_WORKFLOW_ID }},"branch": ${{ secrets.DEPLOYMENT_BRANCH }}}'
+    
